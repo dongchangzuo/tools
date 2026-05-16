@@ -1,45 +1,38 @@
-import type { CheckStatus, PanOffsets } from '../game/balanceLogic.ts'
-import { EqualsSign } from './EqualsSign.tsx'
-import { TrayInput } from './TrayInput.tsx'
+import type { ActiveTray } from '../hooks/useBalanceGame.ts'
+import type { CheckStatus } from '../game/balanceLogic.ts'
+import { BalanceCanvas } from './BalanceCanvas.tsx'
 
 type BalanceScaleProps = {
   leftExpression: string
   rightExpression: string
-  onLeftChange: (value: string) => void
-  onRightChange: (value: string) => void
+  activeTray: ActiveTray
+  onSelectTray: (side: ActiveTray) => void
   checkStatus: CheckStatus
   currentTiltRad: number
-  currentPanOffsets: PanOffsets
+  imbalanceEpoch: number
 }
 
 export function BalanceScale({
   leftExpression,
   rightExpression,
-  onLeftChange,
-  onRightChange,
+  activeTray,
+  onSelectTray,
   checkStatus,
   currentTiltRad,
-  currentPanOffsets,
+  imbalanceEpoch,
 }: BalanceScaleProps) {
   return (
-    <div className="balance-scale">
-      <TrayInput
-        id="expr-left"
-        label="左边算式"
-        value={leftExpression}
-        onChange={onLeftChange}
+    <div className="balance-stage">
+      <BalanceCanvas
+        tiltRad={currentTiltRad}
         checkStatus={checkStatus}
-        offsetY={currentPanOffsets.left}
+        imbalanceEpoch={imbalanceEpoch}
+        leftExpression={leftExpression}
+        rightExpression={rightExpression}
+        activeTray={activeTray}
+        onSelectTray={onSelectTray}
       />
-      <EqualsSign checkStatus={checkStatus} tiltRad={currentTiltRad} />
-      <TrayInput
-        id="expr-right"
-        label="右边算式"
-        value={rightExpression}
-        onChange={onRightChange}
-        checkStatus={checkStatus}
-        offsetY={currentPanOffsets.right}
-      />
+      <p className="balance-hint">点击左/右托盘选择输入侧，使用下方键盘输入算式</p>
     </div>
   )
 }

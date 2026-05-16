@@ -1,58 +1,54 @@
 import { useCallback, useState } from 'react'
-import {
-  checkExpressions,
-  ZERO_PAN_OFFSETS,
-  type CheckStatus,
-  type PanOffsets,
-} from '../game/balanceLogic.ts'
+import { checkExpressions, type CheckStatus } from '../game/balanceLogic.ts'
 import { useBalanceAnimation } from './useBalanceAnimation.ts'
 
-const ALLOWED_INPUT = /^[0-9+\-*/()[\]{}.\s]*$/
+const ALLOWED_INPUT = /^[0-9+\-×÷()[\]{}.\s]*$/
+
+export type ActiveTray = 'left' | 'right'
 
 export function useBalanceGame() {
   const [leftExpression, setLeftExpression] = useState('')
   const [rightExpression, setRightExpression] = useState('')
+  const [activeTray, setActiveTray] = useState<ActiveTray>('left')
   const [checkStatus, setCheckStatus] = useState<CheckStatus>('idle')
   const [message, setMessage] = useState('')
   const [leftValue, setLeftValue] = useState<number | null>(null)
   const [rightValue, setRightValue] = useState<number | null>(null)
   const [targetTiltRad, setTargetTiltRad] = useState(0)
-  const [targetPanOffsets, setTargetPanOffsets] =
-    useState<PanOffsets>(ZERO_PAN_OFFSETS)
+  const [imbalanceEpoch, setImbalanceEpoch] = useState(0)
 
-  const { currentTiltRad, currentPanOffsets, resetAnimation } =
-    useBalanceAnimation(targetTiltRad, targetPanOffsets)
+  const { currentTiltRad, resetAnimation } = useBalanceAnimation(targetTiltRad)
 
   const filterExpression = useCallback((value: string) => {
     if (!ALLOWED_INPUT.test(value)) return null
     return value
   }, [])
 
-  const handleLeftChange = useCallback(
-    (value: string) => {
+  const applyExpression = useCallback(
+    (side: ActiveTray, value: string) => {
       const filtered = filterExpression(value)
       if (filtered === null) return
-      setLeftExpression(filtered)
+      if (side === 'left') setLeftExpression(filtered)
+      else setRightExpression(filtered)
       setCheckStatus('idle')
       setMessage('')
       setTargetTiltRad(0)
-      setTargetPanOffsets(ZERO_PAN_OFFSETS)
     },
     [filterExpression],
   )
 
-  const handleRightChange = useCallback(
-    (value: string) => {
-      const filtered = filterExpression(value)
-      if (filtered === null) return
-      setRightExpression(filtered)
-      setCheckStatus('idle')
-      setMessage('')
-      setTargetTiltRad(0)
-      setTargetPanOffsets(ZERO_PAN_OFFSETS)
+  const insertKey = useCallback(
+    (key: string) => {
+      const current = activeTray === 'left' ? leftExpression : rightExpression
+      applyExpression(activeTray, current + key)
     },
-    [filterExpression],
+    [activeTray, leftExpression, rightExpression, applyExpression],
   )
+
+  const deleteKey = useCallback(() => {
+    const current = activeTray === 'left' ? leftExpression : rightExpression
+    applyExpression(activeTray, current.slice(0, -1))
+  }, [activeTray, leftExpression, rightExpression, applyExpression])
 
   const handleCheck = useCallback(() => {
     const result = checkExpressions(leftExpression, rightExpression)
@@ -63,41 +59,44 @@ export function useBalanceGame() {
       setLeftValue(null)
       setRightValue(null)
       setTargetTiltRad(0)
-      setTargetPanOffsets(ZERO_PAN_OFFSETS)
       return
     }
 
     setLeftValue(result.leftValue)
     setRightValue(result.rightValue)
     setTargetTiltRad(result.targetTiltRad)
-    setTargetPanOffsets(result.panOffsets)
     setMessage(result.message)
     setCheckStatus(result.status)
+    if (result.status === 'imbalance') {
+      setImbalanceEpoch((n) => n + 1)
+    }
   }, [leftExpression, rightExpression])
 
   const handleReset = useCallback(() => {
     setLeftExpression('')
     setRightExpression('')
+    setActiveTray('left')
     setCheckStatus('idle')
     setMessage('')
     setLeftValue(null)
     setRightValue(null)
     setTargetTiltRad(0)
-    setTargetPanOffsets(ZERO_PAN_OFFSETS)
     resetAnimation()
   }, [resetAnimation])
 
   return {
     leftExpression,
     rightExpression,
+    activeTray,
     checkStatus,
     message,
     leftValue,
     rightValue,
     currentTiltRad,
-    currentPanOffsets,
-    handleLeftChange,
-    handleRightChange,
+    imbalanceEpoch,
+    setActiveTray,
+    insertKey,
+    deleteKey,
     handleCheck,
     handleReset,
   }

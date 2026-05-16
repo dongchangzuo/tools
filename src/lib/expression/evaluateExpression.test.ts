@@ -15,6 +15,10 @@ describe('evaluateExpression', () => {
     expect(evaluateExpression('｛（１＋２）＊３｝－２')).toBe(7)
   })
 
+  it('evaluates math multiply and divide symbols', () => {
+    expect(evaluateExpression('3×4÷2')).toBe(6)
+  })
+
   it('supports decimals', () => {
     expect(evaluateExpression('1.5+2.5')).toBe(4)
   })
