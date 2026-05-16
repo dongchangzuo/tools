@@ -1,0 +1,37 @@
+.app {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.hud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  padding: 12px 16px;
+  pointer-events: none;
+  text-align: left;
+}
+
+.hud h1 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #f8fafc;
+}
+
+.hud p {
+  margin: 4px 0 0;
+  font-size: 0.875rem;
+  color: #94a3b8;
+}
+
+.game-canvas {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  object-fit: contain;
+}
