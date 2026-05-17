@@ -17,7 +17,8 @@ export function useBalanceGame() {
   const [targetTiltRad, setTargetTiltRad] = useState(0)
   const [imbalanceEpoch, setImbalanceEpoch] = useState(0)
 
-  const { currentTiltRad, resetAnimation } = useBalanceAnimation(targetTiltRad)
+  const { currentTiltRad, animTime, resetAnimation } =
+    useBalanceAnimation(targetTiltRad)
 
   const filterExpression = useCallback((value: string) => {
     if (!ALLOWED_INPUT.test(value)) return null
@@ -93,6 +94,7 @@ export function useBalanceGame() {
     leftValue,
     rightValue,
     currentTiltRad,
+    animTime,
     imbalanceEpoch,
     setActiveTray,
     insertKey,

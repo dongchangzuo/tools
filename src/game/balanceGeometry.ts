@@ -2,15 +2,21 @@ export const BALANCE_WIDTH = 520
 export const BALANCE_HEIGHT = 360
 
 export const PIVOT_X = BALANCE_WIDTH / 2
-export const PIVOT_Y = 148
+export const PIVOT_Y = 136
+
+export const BASE_WIDTH = 76
+export const BASE_HEIGHT = 16
+export const BASE_TOP_Y = 248
+export const PILLAR_WIDTH = 14
+export const PILLAR_TOP_Y = 52
 export const BEAM_HALF = 168
 export const BEAM_HEIGHT = 14
 export const BEAM_Y = -6
 
-export const PAN_WIDTH = 112
-export const PAN_HEIGHT = 28
+export const PAN_WIDTH = 156
+export const PAN_HEIGHT = 36
 export const PAN_DEPTH = 16
-export const HOOK_DROP = 32
+export const HOOK_DROP = 46
 export const LUG_HEIGHT = 5
 export const PAN_Y_ON_BEAM = 10 + HOOK_DROP
 
@@ -89,7 +95,7 @@ export function hitTestPan(
   tiltRad: number,
 ): PanSide | null {
   const halfW = PAN_WIDTH / 2 + 8
-  const halfH = PAN_HEIGHT / 2 + PAN_DEPTH + 8
+  const halfH = PAN_HEIGHT / 2 + 10
 
   for (const side of ['left', 'right'] as const) {
     const c = getPanWorldCenter(side, tiltRad)

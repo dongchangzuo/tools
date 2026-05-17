@@ -9,6 +9,7 @@ type BalanceScaleProps = {
   onSelectTray: (side: ActiveTray) => void
   checkStatus: CheckStatus
   currentTiltRad: number
+  animTime: number
   imbalanceEpoch: number
 }
 
@@ -19,12 +20,14 @@ export function BalanceScale({
   onSelectTray,
   checkStatus,
   currentTiltRad,
+  animTime,
   imbalanceEpoch,
 }: BalanceScaleProps) {
   return (
     <div className="balance-stage">
       <BalanceCanvas
         tiltRad={currentTiltRad}
+        animTime={animTime}
         checkStatus={checkStatus}
         imbalanceEpoch={imbalanceEpoch}
         leftExpression={leftExpression}

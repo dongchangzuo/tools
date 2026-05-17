@@ -32,6 +32,7 @@ function App() {
           onSelectTray={game.setActiveTray}
           checkStatus={game.checkStatus}
           currentTiltRad={game.currentTiltRad}
+          animTime={game.animTime}
           imbalanceEpoch={game.imbalanceEpoch}
         />
 

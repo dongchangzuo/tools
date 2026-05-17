@@ -7,6 +7,7 @@ import type { ActiveTray } from '../hooks/useBalanceGame.ts'
 
 type BalanceCanvasProps = {
   tiltRad: number
+  animTime: number
   checkStatus: CheckStatus
   imbalanceEpoch: number
   leftExpression: string
@@ -17,6 +18,7 @@ type BalanceCanvasProps = {
 
 export function BalanceCanvas({
   tiltRad,
+  animTime,
   checkStatus,
   imbalanceEpoch,
   leftExpression,
@@ -29,6 +31,7 @@ export function BalanceCanvas({
   const prevImbalanceEpochRef = useRef(imbalanceEpoch)
   const stateRef = useRef({
     tiltRad,
+    animTime,
     checkStatus,
     leftExpression,
     rightExpression,
@@ -54,6 +57,7 @@ export function BalanceCanvas({
 
   stateRef.current = {
     tiltRad,
+    animTime,
     checkStatus,
     leftExpression,
     rightExpression,
@@ -81,6 +85,7 @@ export function BalanceCanvas({
           rightExpression: s.rightExpression,
           activeTray: s.activeTray,
           flashPhase: s.flashPhase,
+          animTime: s.animTime,
         })
       },
     })
