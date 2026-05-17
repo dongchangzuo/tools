@@ -1,8 +1,22 @@
 # tools
 
-基于 React 的 **数学等式天平** 益智小游戏，并包含通用算术表达式求值库。
+基于 React 的数学益智小游戏集合（**等式天平**、**等量代换**），并包含通用算术表达式求值库。单一 Vite 项目，通过路由切换游戏。
 
-## 游戏说明
+## 路由
+
+| 路径 | 游戏 |
+|------|------|
+| `/` | 首页（选择游戏） |
+| `/balance` | 数学等式天平 |
+| `/substitution` | 等量代换 |
+
+```bash
+npm run dev
+```
+
+浏览器打开 Vite 提示的地址（通常 `http://localhost:5173`）。
+
+## 等式天平
 
 - **Canvas 写实天平**：厚实木纹托盘固定在横梁两端，无吊绳/悬挂杆；横梁、转轴、底座统一教具风格
 - 点击左/右托盘选择输入侧，用屏幕 **虚拟键盘** 输入算式（0–9、括号、`+−×÷`、删除），算式显示在托盘顶面
@@ -12,11 +26,10 @@
 - 不等：较大一侧托盘下沉、等号倾斜并 **红色闪烁**
 - **重置清空** 恢复初始状态
 
-```bash
-npm run dev
-```
+## 等量代换
 
-浏览器打开 Vite 提示的地址（通常 `http://localhost:5173`）。
+- 根据规则（如 △ = ○）拖动图形填入等式右侧
+- 点击 **提交** 校验两边数量是否相等
 
 ## 环境要求
 
@@ -73,6 +86,7 @@ npx vitest --help
 
 - [`src/lib/expression/evaluateExpression.test.ts`](src/lib/expression/evaluateExpression.test.ts) — 表达式解析与求值
 - [`src/game/balanceLogic.test.ts`](src/game/balanceLogic.test.ts) — 天平校验逻辑
+- [`src/substitution/game/substitutionLogic.test.ts`](src/substitution/game/substitutionLogic.test.ts) — 等量代换校验逻辑
 
 ## 开发与构建
 
