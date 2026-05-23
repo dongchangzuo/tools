@@ -21,8 +21,24 @@ export function HomePage() {
           <span className="home-card__icon" aria-hidden>
             🔺
           </span>
-          <h2 className="home-card__title">等量代换</h2>
-          <p className="home-card__desc">根据规则拖动图形，让等式两边一样多</p>
+          <h2 className="home-card__title">等量代换 · 演示 1</h2>
+          <p className="home-card__desc">△ = ○，△ + △ = ？ + ？</p>
+        </Link>
+
+        <Link to="/substitution/2" className="home-card">
+          <span className="home-card__icon" aria-hidden>
+            🔺
+          </span>
+          <h2 className="home-card__title">等量代换 · 演示 2</h2>
+          <p className="home-card__desc">△ + △ = ○，△ + △ + ○ = ？ + ？</p>
+        </Link>
+
+        <Link to="/substitution/3" className="home-card">
+          <span className="home-card__icon" aria-hidden>
+            🔢
+          </span>
+          <h2 className="home-card__title">等量代换 · 演示 3</h2>
+          <p className="home-card__desc">△ + ○ = 15，△ + △ + ○ + ○ = ？</p>
         </Link>
       </nav>
     </div>

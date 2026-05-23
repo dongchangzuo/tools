@@ -1,12 +1,9 @@
 import { useCallback, useState } from 'react'
-import {
-  DEFAULT_PROBLEM,
-  validateAnswer,
-} from '../game/substitutionLogic'
+import { validateAnswer } from '../game/substitutionLogic'
+import type { SlotsProblem } from '../game/substitutionLogic'
 import type { CheckStatus, FailureReason, ShapeKind } from '../types'
 
-export function useSubstitutionGame() {
-  const problem = DEFAULT_PROBLEM
+export function useSubstitutionGame(problem: SlotsProblem) {
   const [slots, setSlots] = useState<(ShapeKind | null)[]>(() =>
     Array.from({ length: problem.slotCount }, () => null),
   )

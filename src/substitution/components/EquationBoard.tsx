@@ -1,12 +1,13 @@
-import type { Problem } from '../game/substitutionLogic'
+import type { SlotsProblem } from '../game/substitutionLogic'
 import type { ShapeKind } from '../types'
 import { DropSlot } from './DropSlot.tsx'
 import { ShapeIcon } from './ShapeIcon.tsx'
 
 type EquationBoardProps = {
-  problem: Problem
+  problem: SlotsProblem
   slots: (ShapeKind | null)[]
   disabled?: boolean
+  shapeSize?: number
   onDrop: (index: number, shape: ShapeKind) => void
   onClear: (index: number) => void
 }
@@ -15,6 +16,7 @@ export function EquationBoard({
   problem,
   slots,
   disabled,
+  shapeSize = 52,
   onDrop,
   onClear,
 }: EquationBoardProps) {
@@ -25,7 +27,7 @@ export function EquationBoard({
         {problem.left.map((shape, i) => (
           <span key={`l-${i}`} className="equation-board__term">
             {i > 0 && <span className="equation-board__op">+</span>}
-            <ShapeIcon kind={shape} size={52} />
+            <ShapeIcon kind={shape} size={shapeSize} />
           </span>
         ))}
         <span className="equation-board__eq">=</span>
