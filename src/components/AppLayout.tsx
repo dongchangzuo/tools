@@ -4,6 +4,7 @@ export function AppLayout() {
   const { pathname } = useLocation()
   const onHome = pathname === '/'
   const onSubstitution = pathname.startsWith('/substitution')
+  const onLogin = pathname === '/login'
 
   return (
     <div className="site">
@@ -24,6 +25,12 @@ export function AppLayout() {
               className={onSubstitution ? 'site-nav__link site-nav__link--active' : 'site-nav__link'}
             >
               等量代换
+            </Link>
+            <Link
+              to="/login"
+              className={onLogin ? 'site-nav__link site-nav__link--active' : 'site-nav__link'}
+            >
+              登录
             </Link>
             {onSubstitution && (
               <>

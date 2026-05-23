@@ -8,6 +8,7 @@ import { AppleTestPage } from './pages/AppleTestPage'
 import { ShapesTestPage } from './pages/ShapesTestPage'
 import { BalanceHookTestPage } from './pages/BalanceHookTestPage'
 import { SubstitutionPage } from './pages/SubstitutionPage'
+import { LoginPage } from './pages/LoginPage'
 import './App.css'
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path="test/apple" element={<AppleTestPage />} />
           <Route path="test/shapes" element={<ShapesTestPage />} />
           <Route path="test/balance-hook" element={<BalanceHookTestPage />} />
+          <Route path="login" element={<LoginPage />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
