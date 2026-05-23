@@ -40,6 +40,22 @@ export function HomePage() {
           <h2 className="home-card__title">等量代换 · 演示 3</h2>
           <p className="home-card__desc">△ + ○ = 15，△ + △ + ○ + ○ = ？</p>
         </Link>
+
+        <Link to="/test/apple" className="home-card home-card--dev">
+          <span className="home-card__icon" aria-hidden>
+            🍎
+          </span>
+          <h2 className="home-card__title">Apple 组件测试</h2>
+          <p className="home-card__desc">开发调试 · Canvas 苹果绘制参数</p>
+        </Link>
+
+        <Link to="/test/shapes" className="home-card home-card--dev">
+          <span className="home-card__icon" aria-hidden>
+            📐
+          </span>
+          <h2 className="home-card__title">立体几何组件测试</h2>
+          <p className="home-card__desc">正方体、三棱锥、圆柱体、球体</p>
+        </Link>
       </nav>
     </div>
   )

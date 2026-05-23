@@ -4,6 +4,8 @@ import { BalancePage } from './pages/BalancePage'
 import { HomePage } from './pages/HomePage'
 import { SubstitutionDemo2Page } from './pages/SubstitutionDemo2Page'
 import { SubstitutionDemo3Page } from './pages/SubstitutionDemo3Page'
+import { AppleTestPage } from './pages/AppleTestPage'
+import { ShapesTestPage } from './pages/ShapesTestPage'
 import { SubstitutionPage } from './pages/SubstitutionPage'
 import './App.css'
 
@@ -17,6 +19,8 @@ function App() {
           <Route path="substitution" element={<SubstitutionPage />} />
           <Route path="substitution/2" element={<SubstitutionDemo2Page />} />
           <Route path="substitution/3" element={<SubstitutionDemo3Page />} />
+          <Route path="test/apple" element={<AppleTestPage />} />
+          <Route path="test/shapes" element={<ShapesTestPage />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

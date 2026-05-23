@@ -11,6 +11,8 @@
 | `/substitution` | 等量代换 · 演示 1（△ = ○） |
 | `/substitution/2` | 等量代换 · 演示 2（△ + △ = ○） |
 | `/substitution/3` | 等量代换 · 演示 3（△ + ○ = 15，输入数字答案） |
+| `/test/apple` | Apple Canvas 组件测试（开发） |
+| `/test/shapes` | 立体几何 Canvas 组件测试（开发） |
 
 ```bash
 npm run dev
