@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import type { FormEvent } from 'react'
 
 const emailRule = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -140,9 +141,9 @@ export function LoginPage() {
                 />
                 <span>记住我</span>
               </label>
-              <a href="#" className="login-link">
+              <Link to="/reset-password" className="login-link">
                 忘记密码？
-              </a>
+              </Link>
             </div>
 
             <button type="submit" className="login-submit" disabled={isSubmitting}>
@@ -164,6 +165,12 @@ export function LoginPage() {
 
             <p className="login-status" aria-live="polite">
               {status || '使用示例表单预览登录页体验。'}
+            </p>
+
+            <p className="login-link-row">
+              <Link to="/register" className="login-link">
+                还没有账号？立即注册
+              </Link>
             </p>
           </form>
         </section>

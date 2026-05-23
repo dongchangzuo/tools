@@ -9,6 +9,9 @@ import { ShapesTestPage } from './pages/ShapesTestPage'
 import { BalanceHookTestPage } from './pages/BalanceHookTestPage'
 import { SubstitutionPage } from './pages/SubstitutionPage'
 import { LoginPage } from './pages/LoginPage'
+import { ForgotPasswordPage } from './pages/ForgotPasswordPage'
+import { RegisterPage } from './pages/RegisterPage'
+import { ResetPasswordPage } from './pages/ResetPasswordPage'
 import './App.css'
 
 function App() {
@@ -25,6 +28,9 @@ function App() {
           <Route path="test/shapes" element={<ShapesTestPage />} />
           <Route path="test/balance-hook" element={<BalanceHookTestPage />} />
           <Route path="login" element={<LoginPage />} />
+          <Route path="reset-password" element={<ForgotPasswordPage />} />
+          <Route path="reset-password/confirm" element={<ResetPasswordPage />} />
+          <Route path="register" element={<RegisterPage />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
