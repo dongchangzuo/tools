@@ -46,3 +46,28 @@ export function strokeSilhouetteEdges(
     ctx.stroke()
   }
 }
+
+/** 描出所有可见面的边（含棱锥顶棱等共享边） */
+export function strokeVisibleFaceEdges(
+  ctx: CanvasRenderingContext2D,
+  faces: { projected: Point2[] }[],
+  palette: ShapePalette,
+  originX: number,
+  originY: number,
+): void {
+  ctx.strokeStyle = palette.edge
+  ctx.lineWidth = 1.2
+  ctx.lineJoin = 'round'
+
+  for (const face of faces) {
+    const pts = face.projected
+    for (let i = 0; i < pts.length; i++) {
+      const a = pts[i]
+      const b = pts[(i + 1) % pts.length]
+      ctx.beginPath()
+      ctx.moveTo(a.x - originX, a.y - originY)
+      ctx.lineTo(b.x - originX, b.y - originY)
+      ctx.stroke()
+    }
+  }
+}

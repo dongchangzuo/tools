@@ -3,7 +3,7 @@ export {
   createShapeCanvas,
   type ShapeCanvasPaintOptions,
 } from './canvas'
-export { strokeSilhouetteEdges } from './edges'
+export { strokeSilhouetteEdges, strokeVisibleFaceEdges } from './edges'
 export {
   drawGroundShadow,
   faceShade,
