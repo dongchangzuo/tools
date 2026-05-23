@@ -1,7 +1,6 @@
+import { API_BASE_URL } from './config'
 import { ApiError, type ApiErrorBody } from './types'
 import { getAccessToken } from '../auth/tokenStorage'
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '/api/v1'
 
 type RequestOptions = {
   auth?: boolean
@@ -52,6 +51,8 @@ async function apiRequest<T>(
     method,
     headers,
     body: body === undefined ? undefined : JSON.stringify(body),
+    mode: 'cors',
+    credentials: 'omit',
   })
 
   if (!response.ok) {

@@ -44,7 +44,7 @@ npm run dev
 
 ## 认证 API（Spring Boot + PostgreSQL）
 
-前端登录/注册/重置密码页已对接 `backend/` 下的 REST API（`http://localhost:8080/api/v1`）。开发时 Vite 将 `/api` 代理到后端。
+前端登录/注册/重置密码页已对接 `backend/` 下的 REST API。默认请求 **`http://localhost:8000/api/v1`**（可在 `.env` 用 `VITE_API_HOST` 修改）。开发环境后端监听 **8000** 端口（`application-dev.yml`）。
 
 | 路径 | 页面 |
 |------|------|
@@ -59,11 +59,19 @@ npm run dev
 - **Docker**（本地 PostgreSQL）
 - Node.js 20+、npm（前端）
 
-复制环境变量示例（可选，默认使用 Vite 代理）：
+复制并按需修改 API 地址（**改 backend host 只需编辑 `.env`，无需改代码**）：
 
 ```bash
 cp .env.example .env
 ```
+
+| 变量 | 示例 | 说明 |
+|------|------|------|
+| `VITE_API_HOST` | `http://localhost:8000` | 后端 origin（协议 + 主机 + 端口） |
+| `VITE_API_PATH` | `/api/v1` | API 路径前缀，默认 `/api/v1` |
+| `VITE_API_BASE_URL` | `http://localhost:8000/api/v1` | 可选；若设置则**整条**作为 base，优先级最高 |
+
+未配置时前端默认直连 `http://localhost:8000/api/v1`（`npm run preview` 也不会再打到 4173 同源）。若使用相对路径 `/api/v1`，dev/preview 会通过 `vite.config.ts` 代理到 `VITE_API_HOST` 或 `localhost:8000`。
 
 ### 启动顺序
 

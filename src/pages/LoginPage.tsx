@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import type { FormEvent } from 'react'
 import { ApiError } from '../lib/api/types'
 import { login } from '../lib/auth/authApi'
@@ -45,7 +45,9 @@ function AlipayIcon() {
 
 export function LoginPage() {
   const navigate = useNavigate()
-  const [email, setEmail] = useState('')
+  const location = useLocation()
+  const retryEmail = (location.state as { email?: string } | null)?.email ?? ''
+  const [email, setEmail] = useState(retryEmail)
   const [password, setPassword] = useState('')
   const [remember, setRemember] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -93,6 +95,16 @@ export function LoginPage() {
       navigate('/')
     } catch (error) {
       if (error instanceof ApiError) {
+        if (error.code === 'INVALID_CREDENTIALS' || error.status === 401) {
+          navigate('/login/failed', {
+            state: {
+              code: error.code,
+              message: error.message,
+              email: email.trim(),
+            },
+          })
+          return
+        }
         setStatus(error.message)
       } else {
         setStatus('登录失败，请稍后重试。')

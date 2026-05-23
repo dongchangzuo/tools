@@ -1,6 +1,7 @@
 package com.tools.auth.config;
 
 import com.tools.auth.security.JwtAuthenticationFilter;
+import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,6 +19,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    private static final List<String> ALLOWED_METHODS =
+        List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS");
+    private static final List<String> ALLOWED_HEADERS =
+        List.of("Authorization", "Content-Type", "Accept", "Origin", "X-Requested-With");
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final CorsProperties corsProperties;
@@ -53,10 +59,18 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(corsProperties.allowedOrigins());
-        config.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(java.util.List.of("*"));
-        config.setAllowCredentials(true);
+        if (!corsProperties.allowedOriginPatterns().isEmpty()) {
+            config.setAllowedOriginPatterns(corsProperties.allowedOriginPatterns());
+        } else if (!corsProperties.allowedOrigins().isEmpty()) {
+            config.setAllowedOrigins(corsProperties.allowedOrigins());
+        }
+        config.setAllowedMethods(ALLOWED_METHODS);
+        config.setAllowedHeaders(ALLOWED_HEADERS);
+        config.setExposedHeaders(List.of("Authorization"));
+        // JWT is sent via Authorization header, not cookies — avoids credentialed CORS restrictions.
+        config.setAllowCredentials(false);
+        config.setMaxAge(3600L);
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;

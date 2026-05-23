@@ -8,6 +8,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
 import java.util.Date;
 import java.util.UUID;
@@ -27,8 +29,31 @@ public class JwtService {
 
     public JwtService(JwtProperties properties) {
         this.properties = properties;
-        this.accessKey = Keys.hmacShaKeyFor(properties.secret().getBytes(StandardCharsets.UTF_8));
-        this.resetKey = Keys.hmacShaKeyFor(properties.resetSecret().getBytes(StandardCharsets.UTF_8));
+        this.accessKey = hmacKey(requireSecret(properties.secret(), "app.jwt.secret"));
+        this.resetKey = hmacKey(requireSecret(properties.resetSecret(), "app.jwt.reset-secret"));
+    }
+
+    private static String requireSecret(String value, String propertyName) {
+        if (value == null || value.isBlank()) {
+            throw new IllegalStateException(propertyName + " must not be blank");
+        }
+        return value;
+    }
+
+    /**
+     * HS256 requires >= 256-bit keys. Short dev secrets are stretched with SHA-256.
+     */
+    static SecretKey hmacKey(String secret) {
+        byte[] bytes = secret.getBytes(StandardCharsets.UTF_8);
+        if (bytes.length >= 32) {
+            return Keys.hmacShaKeyFor(bytes);
+        }
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            return Keys.hmacShaKeyFor(digest.digest(bytes));
+        } catch (NoSuchAlgorithmException ex) {
+            throw new IllegalStateException("SHA-256 not available", ex);
+        }
     }
 
     public String createAccessToken(User user, boolean rememberMe) {

@@ -806,6 +806,57 @@
   }
 }
 
+.auth-error-page__panel {
+  text-align: center;
+}
+
+.auth-error-page__icon-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.auth-error-page__icon {
+  width: 52px;
+  height: 52px;
+  color: #fca5a5;
+}
+
+.auth-error-page__card {
+  text-align: left;
+  margin-top: 4px;
+}
+
+.auth-error-page__message {
+  color: #fecdd3;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.auth-error-page__hints {
+  margin: 18px 0 0;
+  padding-left: 1.2rem;
+  text-align: left;
+  color: #cbd5e1;
+  line-height: 1.75;
+}
+
+.auth-error-page__hints li + li {
+  margin-top: 8px;
+}
+
+.auth-error-page__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.auth-error-page__secondary-link {
+  display: inline-block;
+  text-align: center;
+}
+
 @media (max-width: 900px) {
   .login-shell {
     max-width: 100%;
