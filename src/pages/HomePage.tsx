@@ -56,6 +56,14 @@ export function HomePage() {
           <h2 className="home-card__title">立体几何组件测试</h2>
           <p className="home-card__desc">正方体、三棱锥、圆柱体、球体</p>
         </Link>
+
+        <Link to="/test/balance-hook" className="home-card home-card--dev">
+          <span className="home-card__icon" aria-hidden>
+            ⚖️
+          </span>
+          <h2 className="home-card__title">挂钩天平组件</h2>
+          <p className="home-card__desc">3D 挂钩 + 黄铜秤盘 · Oblique Suspension</p>
+        </Link>
       </nav>
     </div>
   )

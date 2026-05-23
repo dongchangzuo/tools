@@ -13,6 +13,7 @@
 | `/substitution/3` | 等量代换 · 演示 3（△ + ○ = 15，输入数字答案） |
 | `/test/apple` | Apple Canvas 组件测试（开发） |
 | `/test/shapes` | 立体几何 Canvas 组件测试（开发） |
+| `/test/balance-hook` | 3D 挂钩天平 Canvas 组件测试（开发） |
 
 ```bash
 npm run dev
@@ -93,6 +94,25 @@ npx vitest --help
 - [`src/lib/expression/evaluateExpression.test.ts`](src/lib/expression/evaluateExpression.test.ts) — 表达式解析与求值
 - [`src/game/balanceLogic.test.ts`](src/game/balanceLogic.test.ts) — 天平校验逻辑
 - [`src/substitution/game/substitutionLogic.test.ts`](src/substitution/game/substitutionLogic.test.ts) — 等量代换校验逻辑
+- [`src/modules/balance-hook/geometry.test.ts`](src/modules/balance-hook/geometry.test.ts) — 挂钩天平几何与命中
+
+## 挂钩天平模块（`balance-hook`）
+
+可复用 **Canvas 3D** 组件：正前方约 **45° 俯视**，金属支架 + 黄铜浅碟，钩链接到口沿。设计哲学见 [`art/oblique-suspension.md`](art/oblique-suspension.md)。`/balance` 游戏页仍使用木质托盘 + 算式，未替换。
+
+```tsx
+import { HookBalanceCanvas, BALANCE_WIDTH, BALANCE_HEIGHT } from './modules/balance-hook'
+
+<HookBalanceCanvas tiltRad={0} onSelectSide={(side) => {}} />
+```
+
+导出参考图（需 dev 依赖 `@napi-rs/canvas`、`tsx`）：
+
+```bash
+npm run art:hook-balance
+```
+
+生成 [`art/hook-balance-oblique.png`](art/hook-balance-oblique.png)。
 
 ## 开发与构建
 
