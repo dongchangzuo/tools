@@ -13,6 +13,9 @@ function resolvePalette(partial?: Partial<ShapePalette>): ShapePalette {
   return { ...DEFAULT_SHAPE_PALETTE, ...partial }
 }
 
+/** 正面投影与正方体（等轴测）在画布上的宽高接近 */
+const CUBE_VISUAL_MATCH = 1.85
+
 function subtract(a: Vec3, b: Vec3): Vec3 {
   return { x: a.x - b.x, y: a.y - b.y, z: a.z - b.z }
 }
@@ -58,11 +61,12 @@ function faceDepthFront(verts: Vec3[]): number {
  */
 function pyramidVertices(size: number): { verts: Vec3[]; faces: { indices: number[]; normal: Vec3 }[] } {
   const half = size / 2
-  const apexY = half * 0.95
-  const baseY = -half * 0.78
-  const halfBase = size * 0.44
-  const backZ = -size * 0.28
-  const baseDrop = size * 0.24
+  const k = CUBE_VISUAL_MATCH
+  const apexY = half * 0.95 * k
+  const baseY = -half * 0.78 * k
+  const halfBase = size * 0.44 * k
+  const backZ = -size * 0.28 * k
+  const baseDrop = size * 0.24 * k
 
   const apex: Vec3 = { x: 0, y: apexY, z: 0 }
   const v0: Vec3 = { x: -halfBase, y: baseY, z: 0 }
@@ -158,7 +162,7 @@ export function drawPyramid(
   const footY = Math.max(...baseProj.map((p) => p.y))
   const footX = baseProj.reduce((s, p) => s + p.x, 0) / baseProj.length
 
-  drawGroundShadow(ctx, cx + footX, cy + footY + 3, size * 0.42, size * 0.11, palette)
+  drawGroundShadow(ctx, cx + footX, cy + footY + 3, size * 0.42, size * 0.14, palette)
 
   ctx.save()
   ctx.translate(cx, cy)
