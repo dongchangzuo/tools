@@ -4,8 +4,11 @@ import type { FormEvent } from 'react'
 import { ApiError } from '../lib/api/types'
 import { login } from '../lib/auth/authApi'
 import { setAccessToken } from '../lib/auth/tokenStorage'
+import { getLoginErrorContent } from '../lib/auth/authErrorContent'
 
 const emailRule = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+type LoginErrorContent = ReturnType<typeof getLoginErrorContent>
 
 function WeChatIcon() {
   return (
@@ -43,6 +46,26 @@ function AlipayIcon() {
   )
 }
 
+function AlertIcon() {
+  return (
+    <svg
+      className="login-error-modal__icon"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <path
+        d="M12 9v4m0 4h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
 export function LoginPage() {
   const navigate = useNavigate()
   const location = useLocation()
@@ -53,6 +76,7 @@ export function LoginPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [status, setStatus] = useState('')
   const [emailError, setEmailError] = useState('')
+  const [loginError, setLoginError] = useState<LoginErrorContent | null>(null)
 
   const validateEmail = (value: string) => {
     if (!value.trim()) {
@@ -96,13 +120,8 @@ export function LoginPage() {
     } catch (error) {
       if (error instanceof ApiError) {
         if (error.code === 'INVALID_CREDENTIALS' || error.status === 401) {
-          navigate('/login/failed', {
-            state: {
-              code: error.code,
-              message: error.message,
-              email: email.trim(),
-            },
-          })
+          setLoginError(getLoginErrorContent(error.code, error.message))
+          setStatus('')
           return
         }
         setStatus(error.message)
@@ -112,6 +131,15 @@ export function LoginPage() {
     } finally {
       setIsSubmitting(false)
     }
+  }
+
+  const closeLoginErrorDialog = () => {
+    setLoginError(null)
+  }
+
+  const retryLogin = () => {
+    setPassword('')
+    setLoginError(null)
   }
 
   return (
@@ -209,6 +237,61 @@ export function LoginPage() {
           </form>
         </section>
       </div>
+
+      {loginError ? (
+        <div className="login-error-modal-backdrop" onClick={closeLoginErrorDialog}>
+          <div
+            className="login-error-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="login-error-title"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              className="login-error-modal__close"
+              aria-label="关闭登录失败提示"
+              onClick={closeLoginErrorDialog}
+            >
+              ×
+            </button>
+
+            <div className="login-error-modal__icon-wrap" aria-hidden="true">
+              <AlertIcon />
+            </div>
+
+            <p className="login-form-panel__eyebrow">{loginError.eyebrow}</p>
+            <h2 id="login-error-title" className="login-error-modal__title">
+              {loginError.title}
+            </h2>
+
+            <div className="login-status-card login-status-card--warning login-error-modal__body">
+              <span className="login-status-card__label">错误详情</span>
+              <p className="login-status login-error-modal__message">{loginError.message}</p>
+            </div>
+
+            <ul className="login-error-modal__hints">
+              {loginError.hints.map((hint) => (
+                <li key={hint}>{hint}</li>
+              ))}
+            </ul>
+
+            <div className="login-error-modal__actions">
+              <button type="button" className="login-submit" onClick={retryLogin}>
+                返回重新登录
+              </button>
+              <div className="login-error-modal__secondary">
+                <Link to="/reset-password" className="login-link">
+                  忘记密码？去重置
+                </Link>
+                <Link to="/register" className="login-link">
+                  还没有账号？立即注册
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </main>
   )
 }
