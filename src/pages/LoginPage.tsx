@@ -1,6 +1,9 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import type { FormEvent } from 'react'
+import { ApiError } from '../lib/api/types'
+import { login } from '../lib/auth/authApi'
+import { setAccessToken } from '../lib/auth/tokenStorage'
 
 const emailRule = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -41,6 +44,7 @@ function AlipayIcon() {
 }
 
 export function LoginPage() {
+  const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [remember, setRemember] = useState(true)
@@ -60,7 +64,7 @@ export function LoginPage() {
     return ''
   }
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     const nextEmailError = validateEmail(email)
@@ -71,13 +75,31 @@ export function LoginPage() {
       return
     }
 
+    if (!password) {
+      setStatus('请输入密码。')
+      return
+    }
+
     setIsSubmitting(true)
     setStatus('')
 
-    window.setTimeout(() => {
+    try {
+      const response = await login({
+        email: email.trim(),
+        password,
+        rememberMe: remember,
+      })
+      setAccessToken(response.accessToken, remember)
+      navigate('/')
+    } catch (error) {
+      if (error instanceof ApiError) {
+        setStatus(error.message)
+      } else {
+        setStatus('登录失败，请稍后重试。')
+      }
+    } finally {
       setIsSubmitting(false)
-      setStatus(`欢迎回来${email ? `，${email}` : ''}。你的安全会话已准备就绪。`)
-    }, 900)
+    }
   }
 
   return (
@@ -164,7 +186,7 @@ export function LoginPage() {
             </div>
 
             <p className="login-status" aria-live="polite">
-              {status || '使用示例表单预览登录页体验。'}
+              {status}
             </p>
 
             <p className="login-link-row">

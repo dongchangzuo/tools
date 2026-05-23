@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import type { FormEvent } from 'react'
+import { ApiError } from '../lib/api/types'
+import { register } from '../lib/auth/authApi'
 
 const emailRule = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const usernameRule = /^[A-Za-z0-9_\u4e00-\u9fff-]{2,20}$/
 const MAX_EMAIL_LENGTH = 254
 const MIN_PASSWORD_LENGTH = 8
 const MAX_PASSWORD_LENGTH = 64
-const EXISTING_EMAILS = new Set(['admin@example.com', 'test@example.com', 'hello@demo.com'])
-
 type StatusTone = 'success' | 'warning'
 
 export function RegisterPage() {
@@ -69,7 +69,7 @@ export function RegisterPage() {
     return !nextErrors.username && !nextErrors.email && !nextErrors.password && !nextErrors.confirmPassword
   }
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     if (!agree) {
@@ -85,22 +85,31 @@ export function RegisterPage() {
       return
     }
 
-    if (EXISTING_EMAILS.has(email.trim().toLowerCase())) {
-      setStatus(`该邮箱已存在：${email}。请改用其他邮箱，或直接返回登录。`)
-      setStatusTone('warning')
-      return
-    }
-
     setIsSubmitting(true)
     setStatus('')
 
-    window.setTimeout(() => {
-      setIsSubmitting(false)
+    try {
+      const response = await register({
+        username: username.trim(),
+        email: email.trim(),
+        password,
+      })
       setStatusTone('success')
-      setStatus(
-        `📧 还差一步：${username || '新同学'}，请立即查收 ${email || '你填写的邮箱'} 中的确认邮件，完成激活后再登录。`
-      )
-    }, 900)
+      setStatus(response.message)
+    } catch (error) {
+      if (error instanceof ApiError && error.code === 'EMAIL_ALREADY_EXISTS') {
+        setStatusTone('warning')
+        setStatus(error.message)
+      } else if (error instanceof ApiError) {
+        setStatusTone('warning')
+        setStatus(error.message)
+      } else {
+        setStatusTone('warning')
+        setStatus('注册失败，请稍后重试。')
+      }
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (

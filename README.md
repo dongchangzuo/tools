@@ -14,6 +14,10 @@
 | `/test/apple` | Apple Canvas 组件测试（开发） |
 | `/test/shapes` | 立体几何 Canvas 组件测试（开发） |
 | `/test/balance-hook` | 3D 挂钩天平 Canvas 组件测试（开发） |
+| `/login` | 登录 |
+| `/register` | 注册 |
+| `/reset-password` | 忘记密码 |
+| `/reset-password/confirm` | 确认新密码 |
 
 ```bash
 npm run dev
@@ -37,6 +41,71 @@ npm run dev
 - **演示 2**（`/substitution/2`）：规则 △ + △ = ○，题目 △ + △ + ○ = 两个空位（仅 ○ + ○ 为正确答案）
 - **演示 3**（`/substitution/3`）：规则 △ + ○ = 15，题目 △ + △ + ○ + ○ = ？（正确答案 **30**）
 - 拖动图形填入等式右侧，点击 **提交** 校验
+
+## 认证 API（Spring Boot + PostgreSQL）
+
+前端登录/注册/重置密码页已对接 `backend/` 下的 REST API（`http://localhost:8080/api/v1`）。开发时 Vite 将 `/api` 代理到后端。
+
+| 路径 | 页面 |
+|------|------|
+| `/login` | 登录 |
+| `/register` | 注册 |
+| `/reset-password` | 忘记密码（发验证码） |
+| `/reset-password/confirm` | 设置新密码 |
+
+### 环境要求（认证）
+
+- **Java 17+**、**Maven 3.9+**
+- **Docker**（本地 PostgreSQL）
+- Node.js 20+、npm（前端）
+
+复制环境变量示例（可选，默认使用 Vite 代理）：
+
+```bash
+cp .env.example .env
+```
+
+### 启动顺序
+
+1. **数据库**
+
+```bash
+docker compose up -d
+```
+
+Postgres：`localhost:5432`，库 `tools_auth`，用户 `tools` / `tools_secret`。
+
+2. **后端**（在 `backend/` 目录）
+
+```bash
+cd backend
+export JWT_SECRET='your-dev-secret-at-least-32-characters-long'
+export JWT_RESET_SECRET='your-dev-reset-secret-at-least-32-chars'
+mvn spring-boot:run
+```
+
+Flyway 会自动执行 `V1__init.sql`。开发环境下 6 位重置验证码会打印在后端日志（`EmailService`），不会发真实邮件。
+
+3. **前端**（项目根目录）
+
+```bash
+npm run dev
+```
+
+浏览器打开 `http://localhost:5173`，使用 `/login`、`/register` 等页面联调。
+
+### 主要接口
+
+| 方法 | 路径 | 说明 |
+|------|------|------|
+| POST | `/api/v1/auth/register` | 注册；邮箱重复 `409 EMAIL_ALREADY_EXISTS` |
+| POST | `/api/v1/auth/login` | 登录；失败 `401 INVALID_CREDENTIALS` |
+| POST | `/api/v1/auth/forgot-password` | 发送重置码（防枚举，统一 200 文案） |
+| POST | `/api/v1/auth/verify-reset-code` | 校验 6 位码，返回 `resetToken` |
+| POST | `/api/v1/auth/reset-password` | 使用 `resetToken` 设置新密码 |
+| GET | `/api/v1/auth/me` | `Authorization: Bearer <token>` 获取当前用户 |
+
+后端单元测试：`cd backend && mvn test`。
 
 ## 环境要求
 

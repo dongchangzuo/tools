@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: tools-auth-db
+    environment:
+      POSTGRES_DB: tools_auth
+      POSTGRES_USER: tools
+      POSTGRES_PASSWORD: tools_secret
+    ports:
+      - "5432:5432"
+    volumes:
+      - tools_auth_pg:/var/lib/postgresql/data
+
+volumes:
+  tools_auth_pg:

@@ -1,0 +1,12 @@
+package com.tools.auth.exception;
+
+public enum ErrorCode {
+    EMAIL_ALREADY_EXISTS,
+    INVALID_CREDENTIALS,
+    VALIDATION_ERROR,
+    INVALID_RESET_CODE,
+    RESET_CODE_EXPIRED,
+    RESET_CODE_NOT_FOUND,
+    INVALID_RESET_TOKEN,
+    UNAUTHORIZED
+}

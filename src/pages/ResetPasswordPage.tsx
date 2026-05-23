@@ -1,11 +1,15 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import type { FormEvent } from 'react'
+import { ApiError } from '../lib/api/types'
+import { resetPassword } from '../lib/auth/authApi'
+import { clearResetSession, getResetToken } from '../lib/auth/tokenStorage'
 
 const MIN_PASSWORD_LENGTH = 8
 const MAX_PASSWORD_LENGTH = 64
 
 export function ResetPasswordPage() {
+  const navigate = useNavigate()
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -14,6 +18,12 @@ export function ResetPasswordPage() {
     password: '',
     confirmPassword: '',
   })
+
+  useEffect(() => {
+    if (!getResetToken()) {
+      navigate('/reset-password', { replace: true })
+    }
+  }, [navigate])
 
   const validateFields = () => {
     const nextErrors = {
@@ -39,7 +49,7 @@ export function ResetPasswordPage() {
     return !nextErrors.password && !nextErrors.confirmPassword
   }
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     if (!validateFields()) {
@@ -47,13 +57,29 @@ export function ResetPasswordPage() {
       return
     }
 
+    const resetToken = getResetToken()
+    if (!resetToken) {
+      navigate('/reset-password', { replace: true })
+      return
+    }
+
     setIsSubmitting(true)
     setStatus('')
 
-    window.setTimeout(() => {
+    try {
+      const response = await resetPassword({ resetToken, password })
+      clearResetSession()
+      setStatus(response.message)
+      window.setTimeout(() => navigate('/login'), 1200)
+    } catch (error) {
+      if (error instanceof ApiError) {
+        setStatus(error.message)
+      } else {
+        setStatus('密码更新失败，请稍后重试。')
+      }
+    } finally {
       setIsSubmitting(false)
-      setStatus('密码已更新。你现在可以使用新密码登录。')
-    }, 900)
+    }
   }
 
   return (

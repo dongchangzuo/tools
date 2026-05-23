@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import type { FormEvent } from 'react'
+import { ApiError } from '../lib/api/types'
+import { forgotPassword, verifyResetCode } from '../lib/auth/authApi'
+import { setResetSession } from '../lib/auth/tokenStorage'
 
 const emailRule = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const codeRule = /^\d{6}$/
@@ -29,7 +32,7 @@ export function ForgotPasswordPage() {
     return ''
   }
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     const nextEmailError = validateEmail(email)
@@ -45,15 +48,23 @@ export function ForgotPasswordPage() {
     setStatus('')
     setCodeError('')
 
-    window.setTimeout(() => {
-      setIsSubmitting(false)
+    try {
+      const response = await forgotPassword({ email: email.trim() })
       setShowCodeInput(true)
       setCode('')
-      setStatus(`验证码已发送到 ${email}。请查看邮箱并输入 6 位数字验证码。`)
-    }, 900)
+      setStatus(response.message)
+    } catch (error) {
+      if (error instanceof ApiError) {
+        setStatus(error.message)
+      } else {
+        setStatus('发送失败，请稍后重试。')
+      }
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
-  const handleVerifyCode = () => {
+  const handleVerifyCode = async () => {
     if (!codeRule.test(code.trim())) {
       setCodeError('请输入 6 位数字验证码。')
       return
@@ -62,10 +73,19 @@ export function ForgotPasswordPage() {
     setIsVerifyingCode(true)
     setCodeError('')
 
-    window.setTimeout(() => {
-      setIsVerifyingCode(false)
+    try {
+      const response = await verifyResetCode({ email: email.trim(), code: code.trim() })
+      setResetSession(response.resetToken, email.trim())
       navigate('/reset-password/confirm')
-    }, 700)
+    } catch (error) {
+      if (error instanceof ApiError) {
+        setCodeError(error.message)
+      } else {
+        setCodeError('验证失败，请稍后重试。')
+      }
+    } finally {
+      setIsVerifyingCode(false)
+    }
   }
 
   return (
