@@ -41,9 +41,15 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers("/api/v1/auth/register", "/api/v1/auth/login",
-                    "/api/v1/auth/forgot-password", "/api/v1/auth/verify-reset-code",
-                    "/api/v1/auth/reset-password").permitAll()
+                .requestMatchers(
+                    "/api/v1/auth/register",
+                    "/api/v1/auth/login",
+                    "/api/v1/auth/forgot-password",
+                    "/api/v1/auth/verify-reset-code",
+                    "/api/v1/auth/reset-password",
+                    "/api/v1/auth/verify-email",
+                    "/api/v1/auth/resend-activation-code"
+                ).permitAll()
                 .requestMatchers("/api/v1/auth/me").authenticated()
                 .anyRequest().denyAll()
             )
