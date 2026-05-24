@@ -18,6 +18,9 @@ application-local.yaml
 .env.local
 .env.*.local
 
+# Local helper scripts
+start.sh
+
 # Java artifacts
 *.class
 *.jar
