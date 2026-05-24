@@ -2,6 +2,8 @@ services:
   postgres:
     image: postgres:16-alpine
     container_name: tools-auth-db
+    restart: unless-stopped
+    command: ["postgres", "-c", "listen_addresses=*"]
     environment:
       POSTGRES_DB: tools_auth
       POSTGRES_USER: tools
@@ -10,6 +12,11 @@ services:
       - "5432:5432"
     volumes:
       - tools_auth_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tools -d tools_auth"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
 volumes:
   tools_auth_pg:
