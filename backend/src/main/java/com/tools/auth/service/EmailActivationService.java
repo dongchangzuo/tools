@@ -8,7 +8,6 @@ import com.tools.auth.exception.ApiException;
 import com.tools.auth.exception.ErrorCode;
 import com.tools.auth.repository.EmailActivationCodeRepository;
 import com.tools.auth.repository.UserRepository;
-import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
@@ -20,8 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class EmailActivationService {
 
-    private static final String ACTIVATION_MESSAGE = "如果该邮箱已注册，我们已向您的邮箱发送激活验证码。";
-    private static final SecureRandom RANDOM = new SecureRandom();
+    private static final String ACTIVATION_MESSAGE = "如果该邮箱已注册，我们已向您的邮箱发送激活链接。";
 
     private final UserRepository userRepository;
     private final EmailActivationCodeRepository activationCodeRepository;
@@ -52,35 +50,42 @@ public class EmailActivationService {
             if (user.isEmailVerified()) {
                 return new MessageResponse("邮箱已激活，无需重复发送。");
             }
-            String code = generateCode();
             Instant expiresAt = Instant.now().plusSeconds(appProperties.expirationMinutes() * 60);
             invalidateActiveCodes(user.getId());
-            activationCodeRepository.save(new EmailActivationCode(UUID.randomUUID(), user, passwordEncoder.encode(code), expiresAt));
-            emailService.sendActivationCode(email, code);
+            UUID activationToken = UUID.randomUUID();
+            activationCodeRepository.save(
+                new EmailActivationCode(activationToken, user, passwordEncoder.encode(activationToken.toString()), expiresAt)
+            );
+            emailService.sendActivationLink(email, activationToken);
         }
         return new MessageResponse(ACTIVATION_MESSAGE);
     }
 
     @Transactional
-    public MessageResponse verifyCode(String emailRaw, String code) {
-        String email = emailRaw.trim().toLowerCase();
-        User user = userRepository.findByEmailIgnoreCase(email)
-            .orElseThrow(this::activationNotFound);
-
-        if (user.isEmailVerified()) {
-            return new MessageResponse("邮箱已激活。");
+    public MessageResponse verifyToken(String token) {
+        UUID activationToken;
+        try {
+            activationToken = UUID.fromString(token);
+        } catch (IllegalArgumentException ex) {
+            throw activationNotFound();
         }
 
-        EmailActivationCode activationCode = activationCodeRepository
-            .findFirstByUser_IdAndUsedAtIsNullOrderByCreatedAtDesc(user.getId())
+        EmailActivationCode activationCode = activationCodeRepository.findById(activationToken)
             .orElseThrow(this::activationNotFound);
+
+        if (activationCode.getUsedAt() != null) {
+            throw activationNotFound();
+        }
 
         if (activationCode.getExpiresAt().isBefore(Instant.now())) {
-            throw new ApiException(ErrorCode.ACTIVATION_CODE_EXPIRED, HttpStatus.BAD_REQUEST, "激活验证码已过期，请重新获取。");
+            throw new ApiException(ErrorCode.ACTIVATION_CODE_EXPIRED, HttpStatus.BAD_REQUEST, "激活链接已过期，请重新获取。");
         }
 
-        if (!passwordEncoder.matches(code, activationCode.getCodeHash())) {
-            throw new ApiException(ErrorCode.INVALID_ACTIVATION_CODE, HttpStatus.BAD_REQUEST, "激活验证码不正确，请重新输入。");
+        User user = activationCode.getUser();
+        if (user.isEmailVerified()) {
+            activationCode.markUsed();
+            activationCodeRepository.save(activationCode);
+            return new MessageResponse("邮箱已激活。");
         }
 
         activationCode.markUsed();
@@ -98,16 +103,11 @@ public class EmailActivationService {
             });
     }
 
-    private static String generateCode() {
-        int value = RANDOM.nextInt(1_000_000);
-        return String.format("%06d", value);
-    }
-
     private ApiException activationNotFound() {
         return new ApiException(
             ErrorCode.ACTIVATION_CODE_NOT_FOUND,
             HttpStatus.BAD_REQUEST,
-            "请先获取激活验证码，或重新发送激活邮件。"
+            "请先获取激活链接，或重新发送激活邮件。"
         );
     }
 }

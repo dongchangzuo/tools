@@ -12,7 +12,6 @@ import com.tools.auth.dto.VerifyResetCodeRequest;
 import com.tools.auth.dto.VerifyResetCodeResponse;
 import com.tools.auth.security.AuthUserPrincipal;
 import com.tools.auth.dto.ResendActivationRequest;
-import com.tools.auth.dto.VerifyEmailRequest;
 import com.tools.auth.service.AuthService;
 import com.tools.auth.service.EmailActivationService;
 import com.tools.auth.service.PasswordResetService;
@@ -25,6 +24,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -76,9 +76,9 @@ public class AuthController {
         return emailActivationService.sendActivationCode(request.email());
     }
 
-    @PostMapping("/verify-email")
-    public MessageResponse verifyEmail(@Valid @RequestBody VerifyEmailRequest request) {
-        return emailActivationService.verifyCode(request.email(), request.code());
+    @GetMapping("/verify-email")
+    public MessageResponse verifyEmail(@RequestParam("token") String token) {
+        return emailActivationService.verifyToken(token);
     }
 
     @GetMapping("/me")

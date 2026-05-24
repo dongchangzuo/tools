@@ -3,6 +3,7 @@ package com.tools.auth.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -19,6 +20,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -49,42 +51,48 @@ class EmailActivationServiceTest {
     }
 
     @Test
-    void verifyCode_rejectsInvalidCode() {
-        User user = new User(UUID.randomUUID(), "alice", "alice@example.com", new BCryptPasswordEncoder().encode("pass"));
-        EmailActivationCode activationCode = new EmailActivationCode(
-            UUID.randomUUID(),
-            user,
-            new BCryptPasswordEncoder().encode("123456"),
-            Instant.now().plusSeconds(600)
-        );
+    void sendActivationCode_createsActivationLinkAndSendsIt() {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        User user = new User(UUID.randomUUID(), "alice", "alice@example.com", encoder.encode("pass"));
 
         when(userRepository.findByEmailIgnoreCase("alice@example.com")).thenReturn(Optional.of(user));
-        when(activationCodeRepository.findFirstByUser_IdAndUsedAtIsNullOrderByCreatedAtDesc(user.getId()))
-            .thenReturn(Optional.of(activationCode));
+        when(activationCodeRepository.save(any(EmailActivationCode.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        assertThatThrownBy(() -> emailActivationService.verifyCode("alice@example.com", "000000"))
-            .isInstanceOf(ApiException.class)
-            .satisfies(ex -> assertThat(((ApiException) ex).getCode()).isEqualTo(ErrorCode.INVALID_ACTIVATION_CODE));
+        emailActivationService.sendActivationCode("alice@example.com");
+
+        ArgumentCaptor<EmailActivationCode> captor = ArgumentCaptor.forClass(EmailActivationCode.class);
+        verify(activationCodeRepository).save(captor.capture());
+        verify(emailService).sendActivationLink(eq("alice@example.com"), any(UUID.class));
+        assertThat(captor.getValue().getUsedAt()).isNull();
+        assertThat(captor.getValue().getExpiresAt()).isAfter(Instant.now());
     }
 
     @Test
-    void verifyCode_marksUserAsVerified() {
+    void verifyToken_rejectsInvalidToken() {
+        assertThatThrownBy(() -> emailActivationService.verifyToken("not-a-uuid"))
+            .isInstanceOf(ApiException.class)
+            .satisfies(ex -> assertThat(((ApiException) ex).getCode()).isEqualTo(ErrorCode.ACTIVATION_CODE_NOT_FOUND));
+    }
+
+    @Test
+    void verifyToken_marksUserAsVerified() {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         User user = new User(UUID.randomUUID(), "alice", "alice@example.com", encoder.encode("pass"));
+        UUID token = UUID.randomUUID();
         EmailActivationCode activationCode = new EmailActivationCode(
-            UUID.randomUUID(),
+            token,
             user,
-            encoder.encode("123456"),
+            encoder.encode(token.toString()),
             Instant.now().plusSeconds(600)
         );
 
-        when(userRepository.findByEmailIgnoreCase("alice@example.com")).thenReturn(Optional.of(user));
-        when(activationCodeRepository.findFirstByUser_IdAndUsedAtIsNullOrderByCreatedAtDesc(user.getId()))
-            .thenReturn(Optional.of(activationCode));
+        when(activationCodeRepository.findById(token)).thenReturn(Optional.of(activationCode));
         when(userRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        emailActivationService.verifyCode("alice@example.com", "123456");
+        emailActivationService.verifyToken(token.toString());
 
-        verify(userRepository).save(any(User.class));
+        verify(activationCodeRepository).save(activationCode);
+        verify(userRepository).save(user);
+        assertThat(user.isEmailVerified()).isTrue();
     }
 }

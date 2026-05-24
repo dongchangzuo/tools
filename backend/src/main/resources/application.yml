@@ -33,5 +33,7 @@ app:
     access-expiration-seconds: 3600
     remember-expiration-seconds: 604800
     reset-expiration-seconds: 900
+  mail:
+    base-url: ${APP_MAIL_BASE_URL:http://localhost:8000}
   reset-code:
     expiration-minutes: 10
