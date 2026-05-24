@@ -17,6 +17,11 @@ spring:
   flyway:
     enabled: true
 
+app:
+  mail:
+    mock: true
+    mock-base-url: http://localhost:8000
+
 logging:
   level:
     com.tools.auth.service.EmailService: INFO
