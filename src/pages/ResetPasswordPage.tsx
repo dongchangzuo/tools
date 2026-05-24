@@ -4,6 +4,7 @@ import type { FormEvent } from 'react'
 import { ApiError } from '../lib/api/types'
 import { resetPassword } from '../lib/auth/authApi'
 import { clearResetSession, getResetToken } from '../lib/auth/tokenStorage'
+import '../auth.css'
 
 const MIN_PASSWORD_LENGTH = 8
 const MAX_PASSWORD_LENGTH = 64

@@ -1,0 +1,28 @@
+# Maven / Spring Boot build outputs
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# IDE / editor metadata
+.idea/
+.vscode/
+.classpath
+.project
+.settings/
+bin/
+
+# Local config
+application-local.yml
+application-local.properties
+application-local.yaml
+.env
+.env.local
+.env.*.local
+
+# Java artifacts
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+hs_err_pid*
+replay_pid*

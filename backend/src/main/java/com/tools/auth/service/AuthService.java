@@ -22,11 +22,18 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final EmailActivationService emailActivationService;
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
+    public AuthService(
+        UserRepository userRepository,
+        PasswordEncoder passwordEncoder,
+        JwtService jwtService,
+        EmailActivationService emailActivationService
+    ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
+        this.emailActivationService = emailActivationService;
     }
 
     @Transactional
@@ -43,10 +50,11 @@ public class AuthService {
         );
         try {
             userRepository.save(user);
+            emailActivationService.sendActivationCode(email);
         } catch (DataIntegrityViolationException ex) {
             throw emailExists(email);
         }
-        return new RegisterResponse("注册成功", UserDto.from(user));
+        return new RegisterResponse("注册成功，请查收邮箱完成激活。", UserDto.from(user));
     }
 
     public AuthResponse login(LoginRequest request) {
@@ -55,6 +63,9 @@ public class AuthService {
             .orElseThrow(this::invalidCredentials);
         if (!passwordEncoder.matches(request.password(), user.getPasswordHash())) {
             throw invalidCredentials();
+        }
+        if (!user.isEmailVerified()) {
+            throw emailNotVerified();
         }
         boolean rememberMe = Boolean.TRUE.equals(request.rememberMe());
         String token = jwtService.createAccessToken(user, rememberMe);
@@ -85,6 +96,14 @@ public class AuthService {
             ErrorCode.INVALID_CREDENTIALS,
             HttpStatus.UNAUTHORIZED,
             "邮箱或密码错误，请重试。"
+        );
+    }
+
+    private ApiException emailNotVerified() {
+        return new ApiException(
+            ErrorCode.EMAIL_NOT_VERIFIED,
+            HttpStatus.FORBIDDEN,
+            "邮箱尚未激活，请先完成邮箱激活后再登录。"
         );
     }
 }

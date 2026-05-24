@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import type { FormEvent } from 'react'
 import { ApiError } from '../lib/api/types'
 import { register } from '../lib/auth/authApi'
+import '../auth.css'
 
 const emailRule = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const usernameRule = /^[A-Za-z0-9_\u4e00-\u9fff-]{2,20}$/

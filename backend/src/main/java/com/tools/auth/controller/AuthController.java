@@ -11,7 +11,10 @@ import com.tools.auth.dto.UserDto;
 import com.tools.auth.dto.VerifyResetCodeRequest;
 import com.tools.auth.dto.VerifyResetCodeResponse;
 import com.tools.auth.security.AuthUserPrincipal;
+import com.tools.auth.dto.ResendActivationRequest;
+import com.tools.auth.dto.VerifyEmailRequest;
 import com.tools.auth.service.AuthService;
+import com.tools.auth.service.EmailActivationService;
 import com.tools.auth.service.PasswordResetService;
 import jakarta.validation.Valid;
 import java.util.Map;
@@ -30,10 +33,16 @@ public class AuthController {
 
     private final AuthService authService;
     private final PasswordResetService passwordResetService;
+    private final EmailActivationService emailActivationService;
 
-    public AuthController(AuthService authService, PasswordResetService passwordResetService) {
+    public AuthController(
+        AuthService authService,
+        PasswordResetService passwordResetService,
+        EmailActivationService emailActivationService
+    ) {
         this.authService = authService;
         this.passwordResetService = passwordResetService;
+        this.emailActivationService = emailActivationService;
     }
 
     @PostMapping("/register")
@@ -60,6 +69,16 @@ public class AuthController {
     @PostMapping("/reset-password")
     public MessageResponse resetPassword(@Valid @RequestBody ResetPasswordRequest request) {
         return passwordResetService.resetPassword(request);
+    }
+
+    @PostMapping("/resend-activation-code")
+    public MessageResponse resendActivationCode(@Valid @RequestBody ResendActivationRequest request) {
+        return emailActivationService.sendActivationCode(request.email());
+    }
+
+    @PostMapping("/verify-email")
+    public MessageResponse verifyEmail(@Valid @RequestBody VerifyEmailRequest request) {
+        return emailActivationService.verifyCode(request.email(), request.code());
     }
 
     @GetMapping("/me")

@@ -4,6 +4,7 @@ import type { FormEvent } from 'react'
 import { ApiError } from '../lib/api/types'
 import { forgotPassword, verifyResetCode } from '../lib/auth/authApi'
 import { setResetSession } from '../lib/auth/tokenStorage'
+import '../auth.css'
 
 const emailRule = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const codeRule = /^\d{6}$/

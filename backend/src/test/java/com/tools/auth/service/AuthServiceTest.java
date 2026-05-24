@@ -33,13 +33,16 @@ class AuthServiceTest {
     @Mock
     private JwtService jwtService;
 
+    @Mock
+    private EmailActivationService emailActivationService;
+
     private PasswordEncoder passwordEncoder;
     private AuthService authService;
 
     @BeforeEach
     void setUp() {
         passwordEncoder = new BCryptPasswordEncoder();
-        authService = new AuthService(userRepository, passwordEncoder, jwtService);
+        authService = new AuthService(userRepository, passwordEncoder, jwtService, emailActivationService);
     }
 
     @Test
@@ -66,6 +69,16 @@ class AuthServiceTest {
         assertThatThrownBy(() -> authService.login(new LoginRequest("alice@example.com", "wrong-pass", false)))
             .isInstanceOf(ApiException.class)
             .satisfies(ex -> assertThat(((ApiException) ex).getCode()).isEqualTo(ErrorCode.INVALID_CREDENTIALS));
+    }
+
+    @Test
+    void login_rejectsUnverifiedEmail() {
+        User user = new User(UUID.randomUUID(), "alice", "alice@example.com", passwordEncoder.encode("correct-pass"));
+        when(userRepository.findByEmailIgnoreCase("alice@example.com")).thenReturn(Optional.of(user));
+
+        assertThatThrownBy(() -> authService.login(new LoginRequest("alice@example.com", "correct-pass", false)))
+            .isInstanceOf(ApiException.class)
+            .satisfies(ex -> assertThat(((ApiException) ex).getCode()).isEqualTo(ErrorCode.EMAIL_NOT_VERIFIED));
     }
 
     @Test

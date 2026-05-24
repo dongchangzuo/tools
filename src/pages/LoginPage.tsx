@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import type { FormEvent } from 'react'
 import { ApiError } from '../lib/api/types'
 import { login } from '../lib/auth/authApi'
 import { setAccessToken } from '../lib/auth/tokenStorage'
 import { getLoginErrorContent } from '../lib/auth/authErrorContent'
+import '../auth.css'
 
 const emailRule = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -68,9 +69,7 @@ function AlertIcon() {
 
 export function LoginPage() {
   const navigate = useNavigate()
-  const location = useLocation()
-  const retryEmail = (location.state as { email?: string } | null)?.email ?? ''
-  const [email, setEmail] = useState(retryEmail)
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [remember, setRemember] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
