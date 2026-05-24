@@ -92,4 +92,20 @@ class AuthServiceTest {
         verify(userRepository).save(captor.capture());
         assertThat(captor.getValue().getEmail()).isEqualTo("new@example.com");
     }
+
+    @Test
+    void register_rejectsInvalidEmailFormat() {
+        assertThatThrownBy(() -> authService.register(
+            new RegisterRequest("alice", "invalid-email", "password123")
+        ))
+            .isInstanceOf(ApiException.class)
+            .satisfies(ex -> {
+                ApiException api = (ApiException) ex;
+                assertThat(api.getCode()).isEqualTo(ErrorCode.VALIDATION_ERROR);
+                assertThat(api.getMessage()).isEqualTo("邮箱格式不正确，请输入如 name@company.com 的地址。");
+            });
+
+        verify(userRepository, never()).save(any());
+        verify(emailActivationService, never()).sendActivationCode(any());
+    }
 }

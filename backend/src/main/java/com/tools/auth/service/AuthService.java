@@ -9,6 +9,8 @@ import com.tools.auth.entity.User;
 import com.tools.auth.exception.ApiException;
 import com.tools.auth.exception.ErrorCode;
 import com.tools.auth.repository.UserRepository;
+import jakarta.mail.internet.AddressException;
+import jakarta.mail.internet.InternetAddress;
 import java.util.UUID;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -38,7 +40,7 @@ public class AuthService {
 
     @Transactional
     public RegisterResponse register(RegisterRequest request) {
-        String email = normalizeEmail(request.email());
+        String email = normalizeAndValidateEmail(request.email());
         if (userRepository.existsByEmailIgnoreCase(email)) {
             throw emailExists(email);
         }
@@ -58,7 +60,7 @@ public class AuthService {
     }
 
     public AuthResponse login(LoginRequest request) {
-        String email = normalizeEmail(request.email());
+        String email = normalizeAndValidateEmail(request.email());
         User user = userRepository.findByEmailIgnoreCase(email)
             .orElseThrow(this::invalidCredentials);
         if (!passwordEncoder.matches(request.password(), user.getPasswordHash())) {
@@ -83,6 +85,24 @@ public class AuthService {
         return email.trim().toLowerCase();
     }
 
+    private static String normalizeAndValidateEmail(String email) {
+        String normalizedEmail = normalizeEmail(email);
+        if (!isValidEmail(normalizedEmail)) {
+            throw invalidEmailFormat();
+        }
+        return normalizedEmail;
+    }
+
+    private static boolean isValidEmail(String email) {
+        try {
+            InternetAddress address = new InternetAddress(email, true);
+            address.validate();
+            return true;
+        } catch (AddressException ex) {
+            return false;
+        }
+    }
+
     private ApiException emailExists(String email) {
         return new ApiException(
             ErrorCode.EMAIL_ALREADY_EXISTS,
@@ -96,6 +116,14 @@ public class AuthService {
             ErrorCode.INVALID_CREDENTIALS,
             HttpStatus.UNAUTHORIZED,
             "邮箱或密码错误，请重试。"
+        );
+    }
+
+    private static ApiException invalidEmailFormat() {
+        return new ApiException(
+            ErrorCode.VALIDATION_ERROR,
+            HttpStatus.BAD_REQUEST,
+            "邮箱格式不正确，请输入如 name@company.com 的地址。"
         );
     }
 
