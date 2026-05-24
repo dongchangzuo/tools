@@ -25,8 +25,8 @@ public class EmailService {
         JavaMailSender mailSender,
         @Value("${spring.mail.username:}") String fromAddress,
         @Value("${app.mail.mock:false}") boolean mockMail,
-        @Value("${app.mail.mock-base-url:http://localhost:8000}") String mockBaseUrl,
-        @Value("${app.mail.base-url:http://localhost:8000}") String baseUrl
+        @Value("${app.mail.mock-base-url:http://localhost:8080}") String mockBaseUrl,
+        @Value("${app.mail.base-url:http://localhost:8080}") String baseUrl
     ) {
         this.mailSender = mailSender;
         this.fromAddress = fromAddress;

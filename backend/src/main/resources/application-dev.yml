@@ -20,7 +20,7 @@ spring:
 app:
   mail:
     mock: true
-    mock-base-url: http://localhost:8000
+    mock-base-url: http://localhost:8080
 
 logging:
   level:
