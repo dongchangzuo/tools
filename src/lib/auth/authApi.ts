@@ -15,6 +15,14 @@ export function login(payload: { email: string; password: string; rememberMe?: b
   return apiPost<AuthResponse>('/auth/login', payload, { auth: false })
 }
 
+export function verifyEmail(token: string) {
+  return apiGet<MessageResponse>(`/auth/verify-email?token=${encodeURIComponent(token)}`, { auth: false })
+}
+
+export function resendActivationCode(payload: { email: string }) {
+  return apiPost<MessageResponse>('/auth/resend-activation-code', payload, { auth: false })
+}
+
 export function forgotPassword(payload: { email: string }) {
   return apiPost<MessageResponse>('/auth/forgot-password', payload, { auth: false })
 }

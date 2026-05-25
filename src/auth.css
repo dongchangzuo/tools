@@ -399,6 +399,75 @@
   width: 100%;
 }
 
+.activation-flow-page {
+  padding-top: 32px;
+  padding-bottom: 32px;
+}
+
+.activation-flow-page__shell {
+  width: min(100%, 640px);
+}
+
+.activation-flow-panel {
+  gap: 18px;
+}
+
+.activation-flow-panel__eyebrow {
+  color: #9bc7ff;
+}
+
+.activation-resend-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.activation-resend-form__submit {
+  width: 100%;
+}
+
+.activation-resend-form__hint {
+  margin: 0;
+  padding: 0 2px;
+  color: #cbd5e1;
+  line-height: 1.7;
+}
+
+.activation-card {
+  padding: 14px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(96, 165, 250, 0.28);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.18), rgba(45, 212, 191, 0.14));
+}
+
+.activation-card--warning {
+  background: linear-gradient(135deg, rgba(248, 113, 113, 0.18), rgba(244, 63, 94, 0.12));
+  border-color: rgba(248, 113, 113, 0.3);
+}
+
+.activation-card__message {
+  margin: 0;
+  color: #f8fafc;
+  line-height: 1.7;
+}
+
+.login-status-card__footer {
+  margin: 12px 0 0;
+  color: #dbeafe;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.login-link-row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 10px;
+}
+
 @keyframes login-modal-pop {
   from {
     transform: translateY(10px) scale(0.98);

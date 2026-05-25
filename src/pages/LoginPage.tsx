@@ -229,6 +229,9 @@ export function LoginPage() {
             </p>
 
             <p className="login-link-row">
+              <Link to="/resend-activation" className="login-link">
+                未收到激活邮件？重新发送
+              </Link>
               <Link to="/register" className="login-link">
                 还没有账号？立即注册
               </Link>

@@ -243,6 +243,17 @@ export function RegisterPage() {
                   {statusTone === 'warning' ? '提示' : '还差一步'}
                 </span>
                 <p className="login-status">{status}</p>
+                {statusTone === 'success' ? (
+                  <p className="login-status-card__footer">
+                    未收到邮件？
+                    <Link
+                      to={`/resend-activation?email=${encodeURIComponent(email.trim())}`}
+                      className="login-link"
+                    >
+                      重新发送激活邮件
+                    </Link>
+                  </p>
+                ) : null}
               </div>
             ) : (
               <p className="login-status" aria-live="polite">
