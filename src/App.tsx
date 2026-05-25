@@ -15,7 +15,6 @@ const LoginPage = lazy(() => import('./pages/LoginPage').then((module) => ({ def
 const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage').then((module) => ({ default: module.ForgotPasswordPage })))
 const RegisterPage = lazy(() => import('./pages/RegisterPage').then((module) => ({ default: module.RegisterPage })))
 const ResetPasswordPage = lazy(() => import('./pages/ResetPasswordPage').then((module) => ({ default: module.ResetPasswordPage })))
-const ResendActivationPage = lazy(() => import('./pages/ResendActivationPage').then((module) => ({ default: module.ResendActivationPage })))
 
 function App() {
   return (
@@ -35,7 +34,6 @@ function App() {
             <Route path="reset-password" element={<ForgotPasswordPage />} />
             <Route path="reset-password/confirm" element={<ResetPasswordPage />} />
             <Route path="register" element={<RegisterPage />} />
-            <Route path="resend-activation" element={<ResendActivationPage />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

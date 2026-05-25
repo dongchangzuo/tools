@@ -1,70 +1,147 @@
-import { Link } from 'react-router-dom'
+import { useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { getAccessToken } from '../lib/auth/tokenStorage'
+
+function HeroParticles() {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    let animationId: number
+    const particles: { x: number; y: number; r: number; vx: number; vy: number; alpha: number }[] = []
+
+    const resize = () => {
+      canvas.width = canvas.offsetWidth
+      canvas.height = canvas.offsetHeight
+    }
+    resize()
+    window.addEventListener('resize', resize)
+
+    for (let i = 0; i < 40; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.5 + 0.5,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        alpha: Math.random() * 0.5 + 0.2,
+      })
+    }
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      for (const p of particles) {
+        p.x += p.vx
+        p.y += p.vy
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1
+        ctx.beginPath()
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
+        ctx.fillStyle = `rgba(148, 163, 184, ${p.alpha})`
+        ctx.fill()
+      }
+
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x
+          const dy = particles[i].y - particles[j].y
+          const dist = Math.sqrt(dx * dx + dy * dy)
+          if (dist < 100) {
+            ctx.beginPath()
+            ctx.moveTo(particles[i].x, particles[i].y)
+            ctx.lineTo(particles[j].x, particles[j].y)
+            ctx.strokeStyle = `rgba(148, 163, 184, ${0.06 * (1 - dist / 100)})`
+            ctx.lineWidth = 0.5
+            ctx.stroke()
+          }
+        }
+      }
+
+      animationId = requestAnimationFrame(draw)
+    }
+    draw()
+
+    return () => {
+      cancelAnimationFrame(animationId)
+      window.removeEventListener('resize', resize)
+    }
+  }, [])
+
+  return <canvas ref={canvasRef} className="home-hero__particles" aria-hidden="true" />
+}
 
 export function HomePage() {
+  const navigate = useNavigate()
+  const isLoggedIn = Boolean(getAccessToken())
+
   return (
-    <div className="home-page">
-      <header className="home-page__header">
-        <h1>数学小游戏</h1>
-        <p className="home-page__subtitle">选一个游戏开始玩</p>
-      </header>
+    <main className="home-page">
+      <section className="home-hero">
+        <HeroParticles />
+        <div className="home-hero__glow home-hero__glow--left" aria-hidden="true" />
+        <div className="home-hero__glow home-hero__glow--right" aria-hidden="true" />
 
-      <nav className="home-page__nav" aria-label="游戏列表">
-        <Link to="/balance" className="home-card">
-          <span className="home-card__icon" aria-hidden>
-            ⚖️
-          </span>
-          <h2 className="home-card__title">数学等式天平</h2>
-          <p className="home-card__desc">在托盘上输入算式，让天平保持平衡</p>
-        </Link>
+        <div className="home-hero__content">
+          <p className="home-hero__eyebrow">— 为探索者而建 —</p>
 
-        <Link to="/substitution" className="home-card">
-          <span className="home-card__icon" aria-hidden>
-            🔺
-          </span>
-          <h2 className="home-card__title">等量代换 · 演示 1</h2>
-          <p className="home-card__desc">△ = ○，△ + △ = ？ + ？</p>
-        </Link>
+          <h1 className="home-hero__title">
+            <span className="home-hero__title-line" style={{ animationDelay: '0s' }}>
+              学如弓弩，
+            </span>
+            <span className="home-hero__title-line" style={{ animationDelay: '0.15s' }}>
+              才如箭镞。
+            </span>
+          </h1>
 
-        <Link to="/substitution/2" className="home-card">
-          <span className="home-card__icon" aria-hidden>
-            🔺
-          </span>
-          <h2 className="home-card__title">等量代换 · 演示 2</h2>
-          <p className="home-card__desc">△ + △ = ○，△ + △ + ○ = ？ + ？</p>
-        </Link>
+          <p className="home-hero__desc" style={{ animationDelay: '0.35s' }}>
+            每一道算式都是思维的体操，每一次推演都在雕刻直觉。
+            <br />
+            从等式的天平到几何的棱角 —— 你面前的不是题目，而是通往清晰思考的阶梯。
+          </p>
 
-        <Link to="/substitution/3" className="home-card">
-          <span className="home-card__icon" aria-hidden>
-            🔢
-          </span>
-          <h2 className="home-card__title">等量代换 · 演示 3</h2>
-          <p className="home-card__desc">△ + ○ = 15，△ + △ + ○ + ○ = ？</p>
-        </Link>
+          <div className="home-hero__actions" style={{ animationDelay: '0.5s' }}>
+            {isLoggedIn ? (
+              <button
+                type="button"
+                className="home-hero__btn home-hero__btn--primary"
+                onClick={() => navigate('/balance')}
+              >
+                开始探索
+              </button>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  className="home-hero__btn home-hero__btn--primary"
+                  onClick={() => navigate('/register')}
+                >
+                  立即启程
+                </button>
+                <button
+                  type="button"
+                  className="home-hero__btn home-hero__btn--ghost"
+                  onClick={() => navigate('/login')}
+                >
+                  已有账号
+                </button>
+              </>
+            )}
+          </div>
 
-        <Link to="/test/apple" className="home-card home-card--dev">
-          <span className="home-card__icon" aria-hidden>
-            🍎
-          </span>
-          <h2 className="home-card__title">Apple 组件测试</h2>
-          <p className="home-card__desc">开发调试 · Canvas 苹果绘制参数</p>
-        </Link>
+          <p className="home-hero__tagline">
+            识以领之，方能中鹄。
+          </p>
+        </div>
 
-        <Link to="/test/shapes" className="home-card home-card--dev">
-          <span className="home-card__icon" aria-hidden>
-            📐
-          </span>
-          <h2 className="home-card__title">立体几何组件测试</h2>
-          <p className="home-card__desc">正方体、三棱锥、圆柱体、球体</p>
-        </Link>
-
-        <Link to="/test/balance-hook" className="home-card home-card--dev">
-          <span className="home-card__icon" aria-hidden>
-            ⚖️
-          </span>
-          <h2 className="home-card__title">挂钩天平组件</h2>
-          <p className="home-card__desc">3D 挂钩 + 黄铜秤盘 · Oblique Suspension</p>
-        </Link>
-      </nav>
-    </div>
+        <div className="home-hero__scroll" aria-hidden="true">
+          <span className="home-hero__scroll-dot" />
+        </div>
+      </section>
+    </main>
   )
 }
+
