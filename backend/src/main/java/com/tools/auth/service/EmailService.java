@@ -33,6 +33,8 @@ public class EmailService {
         this.mockMail = mockMail;
         this.mockBaseUrl = mockBaseUrl;
         this.baseUrl = baseUrl;
+        log.info("EmailService config — mockMail={}, mockBaseUrl={}, baseUrl={}",
+            mockMail, mockBaseUrl, baseUrl);
     }
 
     public void sendPasswordResetCode(String email, String code) {
