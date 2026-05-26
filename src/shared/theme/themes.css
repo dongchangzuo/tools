@@ -1,0 +1,39 @@
+/* =============================================
+   Theme: Cosmic (default — educational indigo)
+   All values sit in :root via tokens.css
+   ============================================= */
+
+/* =============================================
+   Theme: Warm (terracotta / cozy classroom)
+   Overrides for a warm, paper-like educational feel
+   ============================================= */
+[data-theme='warm'] {
+  --font-heading: 'Outfit', 'Segoe UI', sans-serif;
+  --font-body: 'Work Sans', 'Segoe UI', sans-serif;
+
+  --site-bg: #fef7ed;
+  --site-bg-soft: #f5ede0;
+
+  --surface: #fffcf5;
+  --surface-subtle: #faf5eb;
+
+  --text-primary: #292524;
+  --text-secondary: #78716c;
+  --text-muted: #a8a29e;
+
+  --brand: #c2410c;
+  --accent: #ea580c;
+  --accent-2: #f97316;
+  --accent-3: #059669;
+
+  --border: rgba(194, 65, 12, 0.12);
+
+  --shadow-soft: 0 8px 32px rgba(120, 60, 30, 0.12), 0 2px 8px rgba(120, 60, 30, 0.06);
+  --shadow-card: 0 4px 16px rgba(120, 60, 30, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+
+  --home-bg: #fef7ed;
+  --home-surface: rgba(255, 252, 245, 0.92);
+  --home-border: rgba(194, 65, 12, 0.12);
+
+  --nav-bg: rgba(255, 252, 245, 0.92);
+}

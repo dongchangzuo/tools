@@ -14,13 +14,16 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 12px 20px;
+  padding: 14px 24px;
+  margin: 12px 16px 0;
   background: var(--nav-bg);
-  border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(16px);
   flex-shrink: 0;
   position: sticky;
-  top: 0;
+  top: 12px;
   z-index: 30;
 }
 
@@ -38,24 +41,61 @@
 }
 
 .site-nav__link {
-  padding: 8px 14px;
-  border-radius: 999px;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
   font-weight: 700;
   font-size: 0.9rem;
   color: var(--text-secondary);
   transition:
     background 0.2s ease,
     color 0.2s ease,
-    transform 0.2s ease;
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .site-nav__link:hover {
-  background: rgba(56, 189, 248, 0.08);
+  background: rgba(79, 70, 229, 0.08);
   color: var(--text-primary);
   transform: translateY(-1px);
 }
 
+[data-theme='warm'] .site-nav__link:hover {
+  background: rgba(234, 88, 12, 0.08);
+}
+
 .site-nav__link--active {
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  color: #06121f;
+  background: linear-gradient(135deg, var(--brand), var(--text-secondary));
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+}
+
+[data-theme='warm'] .site-nav__link--active {
+  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.25);
+}
+
+.site-nav__theme-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text-secondary);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(79, 70, 229, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.site-nav__theme-btn:hover {
+  background: rgba(79, 70, 229, 0.08);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.12);
 }

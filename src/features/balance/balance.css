@@ -124,3 +124,36 @@
     width: 100%;
   }
 }
+
+/* =============================================
+   Theme: Warm — Balance page overrides
+   ============================================= */
+[data-theme='warm'] .balance-page .app-header h1 {
+  color: var(--brand);
+}
+
+[data-theme='warm'] .balance-page .app-subtitle {
+  color: var(--text-secondary);
+}
+
+[data-theme='warm'] .math-key {
+  color: var(--text-primary);
+  background: var(--surface);
+  border-color: var(--border);
+  box-shadow: 0 3px 0 var(--accent);
+}
+
+[data-theme='warm'] .math-key:hover {
+  background: rgba(217, 119, 6, 0.06);
+}
+
+[data-theme='warm'] .math-key--delete {
+  color: #991b1b;
+  background: #fee2e2;
+  border-color: #fca5a5;
+  box-shadow: 0 3px 0 #991b1b;
+}
+
+[data-theme='warm'] .math-key--delete:active {
+  box-shadow: 0 1px 0 #991b1b;
+}

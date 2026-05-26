@@ -1,10 +1,11 @@
 .btn {
-  padding: 12px 28px;
+  padding: 14px 32px;
   font-size: 1.05rem;
   font-weight: 700;
   border: none;
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.3);
   transition:
     transform 0.15s ease,
     box-shadow 0.15s ease,
@@ -13,16 +14,17 @@
 
 .btn:hover {
   transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .btn:active {
-  transform: translateY(0);
+  transform: translateY(0px);
+  box-shadow: 0 2px 6px rgba(79, 70, 229, 0.1), inset 0 0 0 rgba(255, 255, 255, 0);
 }
 
 .btn--primary {
-  background: linear-gradient(180deg, #5b9bd5, #2d5a87);
+  background: linear-gradient(180deg, #4f46e5, #4338ca);
   color: #fff;
-  box-shadow: 0 4px 12px rgba(45, 90, 135, 0.35);
 }
 
 .btn--secondary {
@@ -69,4 +71,23 @@
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* =============================================
+   Theme: Warm — Component overrides
+   ============================================= */
+[data-theme='warm'] .btn--primary {
+  background: linear-gradient(180deg, #c2410c, #9a3412);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(194, 65, 12, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+[data-theme='warm'] .btn:hover {
+  box-shadow: 0 8px 24px rgba(194, 65, 12, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+[data-theme='warm'] .btn--secondary {
+  background: var(--surface);
+  color: var(--text-secondary);
+  border: 1.5px solid var(--border);
 }

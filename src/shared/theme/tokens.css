@@ -1,31 +1,47 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+/* Warm theme fonts — loaded upfront to avoid FOUT on switch */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&display=swap');
 
 :root {
   --font-heading: 'Space Grotesk', 'Segoe UI', sans-serif;
   --font-body: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
 
-  --site-bg: #f5f7fb;
-  --site-bg-soft: #eef2ff;
-  --surface: rgba(255, 255, 255, 0.9);
-  --surface-subtle: rgba(248, 250, 252, 0.95);
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #64748b;
-  --brand: #2d5a87;
-  --accent: #8b5cf6;
-  --accent-2: #38bdf8;
+  /* --- App background --- */
+  --site-bg: #eef2ff;
+  --site-bg-soft: #e0e7ff;
+
+  /* --- Surfaces (claymorphism) --- */
+  --surface: #ffffff;
+  --surface-subtle: #f8faff;
+
+  /* --- Text --- */
+  --text-primary: #1e1b4b;
+  --text-secondary: #4338ca;
+  --text-muted: #6366f1;
+
+  /* --- Brand & Accents --- */
+  --brand: #4f46e5;
+  --accent: #f97316;
+  --accent-2: #fb923c;
   --accent-3: #22c55e;
-  --border: rgba(45, 90, 135, 0.12);
-  --shadow-soft: 0 18px 60px rgba(15, 23, 42, 0.18);
-  --shadow-card: 0 20px 45px rgba(15, 23, 42, 0.08);
 
-  --radius-lg: 24px;
-  --radius-md: 18px;
-  --radius-sm: 14px;
+  /* --- Borders --- */
+  --border: rgba(79, 70, 229, 0.12);
 
-  --home-bg: #020617;
-  --home-surface: rgba(15, 23, 42, 0.86);
-  --home-border: rgba(148, 163, 184, 0.18);
+  /* --- Shadows (claymorphism: double shadows) --- */
+  --shadow-soft: 0 8px 32px rgba(79, 70, 229, 0.12), 0 2px 8px rgba(79, 70, 229, 0.06);
+  --shadow-card: 0 4px 16px rgba(79, 70, 229, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6);
 
-  --nav-bg: rgba(255, 255, 255, 0.88);
+  /* --- Radii (generous, playful) --- */
+  --radius-lg: 28px;
+  --radius-md: 20px;
+  --radius-sm: 16px;
+
+  /* --- Home page (educational light mode) --- */
+  --home-bg: #eef2ff;
+  --home-surface: rgba(255, 255, 255, 0.92);
+  --home-border: rgba(79, 70, 229, 0.12);
+
+  /* --- Navigation --- */
+  --nav-bg: rgba(255, 255, 255, 0.92);
 }

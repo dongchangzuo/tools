@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AppLayout } from './shared/ui/AppLayout'
+import { ThemeProvider } from './shared/ui/ThemeContext'
 import './App.css'
 
 const HomePage = lazy(() => import('./features/home/HomePage').then((module) => ({ default: module.HomePage })))
@@ -18,6 +19,7 @@ const ResetPasswordPage = lazy(() => import('./features/auth/pages/ResetPassword
 
 function App() {
   return (
+    <ThemeProvider>
     <BrowserRouter>
       <Suspense fallback={null}>
         <Routes>
@@ -39,6 +41,7 @@ function App() {
         </Routes>
       </Suspense>
     </BrowserRouter>
+    </ThemeProvider>
   )
 }
 

@@ -4,8 +4,8 @@
   margin: 0;
   padding: 0;
   background:
-    radial-gradient(circle at top, rgba(139, 92, 246, 0.18), transparent 30%),
-    radial-gradient(circle at 20% 80%, rgba(56, 189, 248, 0.1), transparent 25%),
+    radial-gradient(circle at 15% 20%, rgba(79, 70, 229, 0.08), transparent 35%),
+    radial-gradient(circle at 85% 80%, rgba(249, 115, 22, 0.06), transparent 30%),
     var(--home-bg);
 }
 
@@ -16,10 +16,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 72px 24px 88px;
+  padding: 80px 24px 96px;
   overflow: hidden;
   background:
-    radial-gradient(ellipse 80% 60% at 50% 24%, rgba(15, 23, 42, 0.95) 0%, rgba(2, 6, 23, 0.98) 100%);
+    radial-gradient(ellipse 70% 55% at 50% 25%, rgba(79, 70, 229, 0.06) 0%, transparent 70%);
 }
 
 .home-hero__particles {
@@ -33,25 +33,25 @@
 .home-hero__glow {
   position: absolute;
   border-radius: 999px;
-  filter: blur(84px);
-  opacity: 0.34;
+  filter: blur(100px);
+  opacity: 0.2;
   pointer-events: none;
 }
 
 .home-hero__glow--left {
-  top: 10%;
-  left: -8%;
-  width: 420px;
-  height: 420px;
-  background: rgba(56, 189, 248, 0.32);
+  top: 8%;
+  left: -6%;
+  width: 400px;
+  height: 400px;
+  background: rgba(79, 70, 229, 0.25);
 }
 
 .home-hero__glow--right {
-  bottom: 10%;
-  right: -8%;
-  width: 360px;
-  height: 360px;
-  background: rgba(139, 92, 246, 0.3);
+  bottom: 8%;
+  right: -6%;
+  width: 380px;
+  height: 380px;
+  background: rgba(249, 115, 22, 0.2);
 }
 
 .home-hero__content {
@@ -62,17 +62,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
+  gap: 28px;
 }
 
 .home-hero__eyebrow {
   margin: 0;
   font-family: var(--font-heading);
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   font-weight: 700;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--accent-2);
+  color: var(--brand);
   opacity: 0;
   animation: home-fade-up 0.7s ease forwards;
 }
@@ -87,12 +87,11 @@
 .home-hero__title-line {
   display: block;
   font-family: var(--font-heading);
-  font-size: clamp(2.4rem, 6vw, 4.15rem);
+  font-size: clamp(2.6rem, 6.5vw, 4.4rem);
   font-weight: 800;
   letter-spacing: 0.04em;
   line-height: 1.14;
-  color: #f8fafc;
-  text-shadow: 0 12px 40px rgba(15, 23, 42, 0.35);
+  color: var(--text-primary);
   opacity: 0;
   animation: home-fade-up 0.7s ease forwards;
 }
@@ -101,16 +100,16 @@
   margin: 0;
   max-width: 640px;
   font-family: var(--font-body);
-  font-size: 1.08rem;
+  font-size: 1.1rem;
   line-height: 1.85;
-  color: #cbd5e1;
+  color: var(--text-secondary);
   opacity: 0;
   animation: home-fade-up 0.7s ease forwards;
 }
 
 .home-hero__actions {
   display: flex;
-  gap: 14px;
+  gap: 16px;
   flex-wrap: wrap;
   justify-content: center;
   opacity: 0;
@@ -118,11 +117,11 @@
 }
 
 .home-hero__btn {
-  padding: 14px 32px;
+  padding: 16px 36px;
   border: 0;
-  border-radius: 999px;
+  border-radius: var(--radius-sm);
   font-family: var(--font-body);
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 800;
   cursor: pointer;
   transition:
@@ -133,36 +132,37 @@
 }
 
 .home-hero__btn:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
 }
 
 .home-hero__btn--primary {
-  background: linear-gradient(135deg, #38bdf8, #818cf8);
-  color: #020617;
-  box-shadow: 0 16px 45px rgba(56, 189, 248, 0.34);
+  background: linear-gradient(135deg, var(--brand), var(--text-secondary));
+  color: #fff;
+  box-shadow: 0 8px 28px rgba(79, 70, 229, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .home-hero__btn--primary:hover {
-  box-shadow: 0 18px 56px rgba(56, 189, 248, 0.48);
+  box-shadow: 0 12px 40px rgba(79, 70, 229, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .home-hero__btn--ghost {
-  background: transparent;
-  color: #e2e8f0;
-  border: 1.5px solid rgba(148, 163, 184, 0.35);
+  background: var(--surface);
+  color: var(--text-secondary);
+  border: 1.5px solid var(--border);
+  box-shadow: var(--shadow-card);
 }
 
 .home-hero__btn--ghost:hover {
-  border-color: rgba(148, 163, 184, 0.7);
-  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--brand);
+  background: rgba(79, 70, 229, 0.04);
 }
 
 .home-hero__tagline {
   margin: 0;
   font-family: var(--font-heading);
-  font-size: 0.86rem;
-  letter-spacing: 0.16em;
-  color: #94a3b8;
+  font-size: 0.9rem;
+  letter-spacing: 0.18em;
+  color: var(--text-muted);
   opacity: 0;
   animation: home-fade-up 0.7s ease forwards;
   animation-delay: 0.65s;
@@ -184,7 +184,7 @@
   width: 6px;
   height: 6px;
   border-radius: 999px;
-  background: #64748b;
+  background: var(--text-muted);
   animation: home-scroll-bounce 1.6s ease-in-out infinite;
 }
 
@@ -205,7 +205,6 @@
     transform: translateY(0);
     opacity: 0.4;
   }
-
   50% {
     transform: translateY(10px);
     opacity: 1;
@@ -214,19 +213,48 @@
 
 @media (max-width: 600px) {
   .home-hero {
-    padding: 40px 20px 60px;
+    padding: 48px 20px 64px;
   }
-
   .home-hero__content {
-    gap: 16px;
+    gap: 20px;
   }
-
   .home-hero__actions {
     flex-direction: column;
     width: 100%;
   }
-
   .home-hero__btn {
     width: 100%;
   }
+}
+
+/* =============================================
+   Theme: Warm — Home page overrides
+   ============================================= */
+[data-theme='warm'] .home-page {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(234, 88, 12, 0.08), transparent 35%),
+    radial-gradient(circle at 85% 80%, rgba(249, 115, 22, 0.06), transparent 30%),
+    var(--home-bg);
+}
+
+[data-theme='warm'] .home-hero {
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 25%, rgba(234, 88, 12, 0.06) 0%, transparent 70%);
+}
+
+[data-theme='warm'] .home-hero__glow--left {
+  background: rgba(234, 88, 12, 0.2);
+}
+
+[data-theme='warm'] .home-hero__glow--right {
+  background: rgba(249, 115, 22, 0.18);
+}
+
+[data-theme='warm'] .home-hero__btn--primary {
+  background: linear-gradient(135deg, var(--brand), var(--accent));
+  box-shadow: 0 8px 28px rgba(234, 88, 12, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+[data-theme='warm'] .home-hero__btn--primary:hover {
+  box-shadow: 0 12px 40px rgba(234, 88, 12, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }

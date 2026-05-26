@@ -469,3 +469,72 @@
     transform: translate(calc((var(--i) - 6) * 18px), 120px) rotate(360deg);
   }
 }
+
+/* =============================================
+   Theme: Warm — Substitution page overrides
+   ============================================= */
+[data-theme='warm'] .substitution-page .app-header h1 {
+  color: var(--text-primary);
+}
+
+[data-theme='warm'] .substitution-page .app-subtitle {
+  color: var(--text-secondary);
+}
+
+[data-theme='warm'] .rule-bar {
+  background: var(--surface);
+  border-color: var(--border);
+  box-shadow: var(--shadow-card);
+}
+
+[data-theme='warm'] .rule-bar__label {
+  color: var(--text-muted);
+}
+
+[data-theme='warm'] .equation-board {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+[data-theme='warm'] .shape-toolbox {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+[data-theme='warm'] .shape-toolbox__label {
+  color: var(--text-muted);
+}
+
+[data-theme='warm'] .submit-bar__primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #fff;
+}
+
+[data-theme='warm'] .submit-bar__secondary {
+  background: var(--surface);
+  color: var(--text-secondary);
+  border-color: var(--border);
+}
+
+[data-theme='warm'] .submit-bar__secondary:hover:not(:disabled) {
+  background: var(--surface-subtle);
+}
+
+[data-theme='warm'] .drop-slot:hover:not(.drop-slot--disabled) {
+  background: rgba(217, 119, 6, 0.08);
+}
+
+[data-theme='warm'] .result-card--success {
+  background: linear-gradient(180deg, #fffbeb, var(--surface));
+  border-color: var(--accent-2);
+}
+
+[data-theme='warm'] .result-card--success .result-card__btn {
+  background: var(--accent);
+}
+
+[data-theme='warm'] .result-card__btn--ghost {
+  background: var(--surface);
+  color: var(--text-secondary);
+  border-color: var(--border);
+}

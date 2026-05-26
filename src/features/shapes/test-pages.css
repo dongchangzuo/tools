@@ -274,3 +274,73 @@
   font-size: 0.9rem;
   color: #475569;
 }
+
+/* =============================================
+   Theme: Warm — Test page overrides
+   ============================================= */
+[data-theme='warm'] .apple-test-panel {
+  background: var(--surface);
+  border-color: var(--border);
+  box-shadow: var(--shadow-card);
+}
+
+[data-theme='warm'] .apple-test-panel__title {
+  color: var(--text-secondary);
+}
+
+[data-theme='warm'] .apple-test-controls {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+[data-theme='warm'] .apple-test-control {
+  color: var(--text-secondary);
+}
+
+[data-theme='warm'] .apple-test-control select {
+  border-color: var(--border);
+}
+
+[data-theme='warm'] .apple-test-preset {
+  color: var(--text-primary);
+}
+
+[data-theme='warm'] .apple-test-reset {
+  border-color: var(--border);
+  background: var(--surface-subtle);
+  color: var(--text-secondary);
+}
+
+[data-theme='warm'] .apple-test-reset:hover {
+  background: var(--surface);
+  border-color: var(--accent-2);
+}
+
+[data-theme='warm'] .shapes-test-card {
+  background: var(--surface);
+  border-color: var(--border);
+  box-shadow: var(--shadow-card);
+}
+
+[data-theme='warm'] .shapes-test-card__title {
+  color: var(--text-secondary);
+}
+
+[data-theme='warm'] .shapes-test-card__preview {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+[data-theme='warm'] .balance-hook-test-page__controls button {
+  border-color: var(--border);
+  background: var(--surface);
+}
+
+[data-theme='warm'] .balance-hook-test-page__controls button:hover {
+  background: var(--surface-subtle);
+}
+
+[data-theme='warm'] .balance-hook-test-page__canvas-wrap {
+  border-color: var(--border);
+  background: var(--surface);
+}
