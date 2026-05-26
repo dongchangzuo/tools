@@ -39,10 +39,12 @@ export function AppLayout() {
   const onHome = pathname === '/'
   const onSubstitution = pathname.startsWith('/substitution')
   const onLogin = pathname === '/login'
+  const onRegister = pathname === '/register'
+  const onResetPassword = pathname === '/reset-password' || pathname === '/reset-password/confirm'
 
   return (
     <div className="site">
-      {!onHome && !onLogin && (
+      {!onHome && !onLogin && !onRegister && !onResetPassword && (
         <nav className="site-nav" aria-label="站点导航">
           <Link to="/" className="site-nav__brand">
             数学小游戏
