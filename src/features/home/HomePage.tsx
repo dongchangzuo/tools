@@ -101,7 +101,7 @@ export function HomePage() {
           <p className="home-hero__desc" style={{ animationDelay: '0.35s' }}>
             每一道算式都是思维的体操，每一次推演都在雕刻直觉。
             <br />
-            从等量代换到几何的棱角 —— 你面前的不是题目，而是通往清晰思考的阶梯。
+            从算式的推演到几何的棱角 —— 你面前的不是题目，而是通往清晰思考的阶梯。
           </p>
 
           <div className="home-hero__actions" style={{ animationDelay: '0.5s' }}>
@@ -109,7 +109,7 @@ export function HomePage() {
               <button
                 type="button"
                 className="home-hero__btn home-hero__btn--primary"
-                onClick={() => navigate('/substitution')}
+                onClick={() => navigate('/profile')}
               >
                 开始探索
               </button>

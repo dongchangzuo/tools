@@ -1,3 +1,0 @@
-export const SPHERE_CANVAS_WIDTH = 160
-export const SPHERE_CANVAS_HEIGHT = 180
-export const SPHERE_DEFAULT_SIZE = 72

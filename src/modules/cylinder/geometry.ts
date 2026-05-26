@@ -1,3 +1,0 @@
-export const CYLINDER_CANVAS_WIDTH = 160
-export const CYLINDER_CANVAS_HEIGHT = 180
-export const CYLINDER_DEFAULT_SIZE = 72

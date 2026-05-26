@@ -1,21 +1,17 @@
 # tools
 
-基于 React 的数学益智小游戏集合（**等量代换**）。单一 Vite 项目，通过路由切换游戏。
+基于 React 的数学教育平台（**数韵**），含用户认证与个人资料。单一 Vite 项目。
 
 ## 路由
 
-| 路径 | 游戏 |
+| 路径 | 页面 |
 |------|------|
 | `/` | 首页 |
-| `/substitution` | 等量代换 · 演示 1（△ = ○） |
-| `/substitution/2` | 等量代换 · 演示 2（△ + △ = ○） |
-| `/substitution/3` | 等量代换 · 演示 3（△ + ○ = 15，输入数字答案） |
-| `/test/apple` | Apple Canvas 组件测试（开发） |
-| `/test/shapes` | 立体几何 Canvas 组件测试（开发） |
 | `/login` | 登录 |
 | `/register` | 注册 |
 | `/reset-password` | 忘记密码 |
 | `/reset-password/confirm` | 确认新密码 |
+| `/profile` | 个人资料（需登录） |
 
 ```bash
 npm run dev
@@ -23,23 +19,9 @@ npm run dev
 
 浏览器打开 Vite 提示的地址（通常 `http://localhost:5173`）。
 
-## 等量代换
-
-- **演示 1**（`/substitution`）：规则 △ = ○，题目 △ + △ = 两个空位
-- **演示 2**（`/substitution/2`）：规则 △ + △ = ○，题目 △ + △ + ○ = 两个空位（仅 ○ + ○ 为正确答案）
-- **演示 3**（`/substitution/3`）：规则 △ + ○ = 15，题目 △ + △ + ○ + ○ = ？（正确答案 **30**）
-- 拖动图形填入等式右侧，点击 **提交** 校验
-
 ## 认证 API（Spring Boot + PostgreSQL）
 
 前端登录/注册/重置密码页已对接 `backend/` 下的 REST API。默认请求 **`http://localhost:8000/api/v1`**（可在 `.env` 用 `VITE_API_HOST` 修改）。开发环境后端监听 **8000** 端口（`application-dev.yml`）。
-
-| 路径 | 页面 |
-|------|------|
-| `/login` | 登录 |
-| `/register` | 注册 |
-| `/reset-password` | 忘记密码（发验证码） |
-| `/reset-password/confirm` | 设置新密码 |
 
 ### 环境要求（认证）
 
@@ -113,50 +95,6 @@ npm run dev
 ```bash
 npm install
 ```
-
-## 运行测试用例
-
-项目使用 [Vitest](https://vitest.dev/) 运行单元测试。测试文件位于 `src/**/*.test.ts`。
-
-### 运行全部测试（一次性）
-
-```bash
-npm test
-```
-
-等价于：
-
-```bash
-npx vitest run
-```
-
-### 监听模式（改代码自动重跑）
-
-```bash
-npx vitest
-```
-
-### 只跑某个测试文件
-
-```bash
-npx vitest run src/substitution/game/substitutionLogic.test.ts
-```
-
-### 按用例名称过滤
-
-```bash
-npx vitest run -t "evaluates nested brackets"
-```
-
-### 查看帮助
-
-```bash
-npx vitest --help
-```
-
-测试文件：
-
-- [`src/substitution/game/substitutionLogic.test.ts`](src/substitution/game/substitutionLogic.test.ts) — 等量代换校验逻辑
 
 ## 开发与构建
 

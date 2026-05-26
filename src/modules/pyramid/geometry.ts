@@ -1,3 +1,0 @@
-export const PYRAMID_CANVAS_WIDTH = 160
-export const PYRAMID_CANVAS_HEIGHT = 180
-export const PYRAMID_DEFAULT_SIZE = 72
