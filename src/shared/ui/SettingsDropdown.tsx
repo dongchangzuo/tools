@@ -8,10 +8,12 @@ import {
   getUserInfo,
 } from '../../features/auth/api/tokenStorage'
 
-function ThemeCosmicIcon() {
+function ThemeRealEstateIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+      <path d="M3 21h18" />
+      <path d="M6 21V9l6-4 6 4v12" />
+      <path d="M10 21v-6h4v6" />
     </svg>
   )
 }
@@ -48,7 +50,7 @@ function ThemeTechIcon() {
 }
 
 const THEME_ICONS: Record<ThemeName, () => ReactElement> = {
-  cosmic: ThemeCosmicIcon,
+  'real-estate': ThemeRealEstateIcon,
   warm: ThemeWarmIcon,
   tech: ThemeTechIcon,
 }

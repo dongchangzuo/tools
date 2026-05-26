@@ -24,7 +24,7 @@
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--surface);
-  box-shadow: var(--shadow-card), 0 12px 40px rgba(79, 70, 229, 0.08);
+  box-shadow: var(--shadow-card), 0 12px 40px rgba(15, 118, 110, 0.08);
 }
 
 .profile-card--error {
@@ -94,7 +94,7 @@
 
 .profile-card__link:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.25);
 }
 
 [data-theme='warm'] .profile-card__link:hover {

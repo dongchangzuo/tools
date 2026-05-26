@@ -1,15 +1,15 @@
 import { createContext, useCallback, useContext, useState } from 'react'
 
-export type ThemeName = 'cosmic' | 'warm' | 'tech'
+export type ThemeName = 'real-estate' | 'warm' | 'tech'
 
 export const THEMES: { id: ThemeName; label: string }[] = [
-  { id: 'cosmic', label: '宇宙' },
+  { id: 'real-estate', label: '地产' },
   { id: 'warm', label: '暖色' },
   { id: 'tech', label: '科技' },
 ]
 
 const STORAGE_KEY = 'tools.theme'
-const DEFAULT_THEME: ThemeName = 'cosmic'
+const DEFAULT_THEME: ThemeName = 'real-estate'
 
 type ThemeContextValue = {
   theme: ThemeName
@@ -22,7 +22,8 @@ const ThemeContext = createContext<ThemeContextValue | null>(null)
 function getStoredTheme(): ThemeName {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    if (raw === 'cosmic' || raw === 'warm' || raw === 'tech') return raw
+    if (raw === 'cosmic') return 'real-estate'
+    if (raw === 'real-estate' || raw === 'warm' || raw === 'tech') return raw
   } catch { /* localStorage unavailable */ }
   return DEFAULT_THEME
 }
@@ -45,7 +46,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const cycleTheme = useCallback(() => {
-    const order: ThemeName[] = ['cosmic', 'warm', 'tech']
+    const order: ThemeName[] = ['real-estate', 'warm', 'tech']
     const next = order[(order.indexOf(theme) + 1) % order.length]!
     setTheme(next)
   }, [theme, setTheme])

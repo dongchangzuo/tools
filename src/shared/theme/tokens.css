@@ -1,49 +1,49 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Josefin+Sans:wght@300;400;500;600;700&display=swap');
 /* Warm theme fonts — loaded upfront to avoid FOUT on switch */
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&display=swap');
 /* Tech theme fonts */
 @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap');
 
 :root {
-  --font-heading: 'Space Grotesk', 'Segoe UI', sans-serif;
-  --font-body: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
+  --font-heading: 'Cinzel', 'Georgia', serif;
+  --font-body: 'Josefin Sans', 'Segoe UI', sans-serif;
 
-  /* --- App background --- */
-  --site-bg: #eef2ff;
-  --site-bg-soft: #e0e7ff;
+  /* --- App background (real-estate trust teal) --- */
+  --site-bg: #f0fdfa;
+  --site-bg-soft: #ccfbf1;
 
-  /* --- Surfaces (claymorphism) --- */
+  /* --- Surfaces --- */
   --surface: #ffffff;
-  --surface-subtle: #f8faff;
+  --surface-subtle: #f0fdfa;
 
   /* --- Text --- */
-  --text-primary: #1e1b4b;
-  --text-secondary: #4338ca;
-  --text-muted: #6366f1;
+  --text-primary: #134e4a;
+  --text-secondary: #115e59;
+  --text-muted: #5b7c78;
 
   /* --- Brand & Accents --- */
-  --brand: #4f46e5;
-  --accent: #f97316;
-  --accent-2: #fb923c;
-  --accent-3: #22c55e;
+  --brand: #0f766e;
+  --accent: #0369a1;
+  --accent-2: #14b8a6;
+  --accent-3: #059669;
 
   /* --- Borders --- */
-  --border: rgba(79, 70, 229, 0.12);
+  --border: rgba(15, 118, 110, 0.14);
 
-  /* --- Shadows (claymorphism: double shadows) --- */
-  --shadow-soft: 0 8px 32px rgba(79, 70, 229, 0.12), 0 2px 8px rgba(79, 70, 229, 0.06);
-  --shadow-card: 0 4px 16px rgba(79, 70, 229, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  /* --- Shadows --- */
+  --shadow-soft: 0 8px 32px rgba(15, 118, 110, 0.1), 0 2px 8px rgba(15, 118, 110, 0.05);
+  --shadow-card: 0 4px 16px rgba(15, 118, 110, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.65);
 
-  /* --- Radii (generous, playful) --- */
-  --radius-lg: 28px;
-  --radius-md: 20px;
-  --radius-sm: 16px;
+  /* --- Radii (clean, professional) --- */
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 12px;
 
-  /* --- Home page (educational light mode) --- */
-  --home-bg: #eef2ff;
-  --home-surface: rgba(255, 255, 255, 0.92);
-  --home-border: rgba(79, 70, 229, 0.12);
+  /* --- Home page --- */
+  --home-bg: #f0fdfa;
+  --home-surface: rgba(255, 255, 255, 0.94);
+  --home-border: rgba(15, 118, 110, 0.14);
 
   /* --- Navigation --- */
-  --nav-bg: rgba(255, 255, 255, 0.92);
+  --nav-bg: rgba(255, 255, 255, 0.94);
 }

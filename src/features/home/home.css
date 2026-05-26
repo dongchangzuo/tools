@@ -4,8 +4,8 @@
   margin: 0;
   padding: 0;
   background:
-    radial-gradient(circle at 15% 20%, rgba(79, 70, 229, 0.08), transparent 35%),
-    radial-gradient(circle at 85% 80%, rgba(249, 115, 22, 0.06), transparent 30%),
+    radial-gradient(circle at 15% 20%, rgba(15, 118, 110, 0.08), transparent 35%),
+    radial-gradient(circle at 85% 80%, rgba(3, 105, 161, 0.06), transparent 30%),
     var(--home-bg);
 }
 
@@ -19,7 +19,7 @@
   padding: 80px 24px 96px;
   overflow: hidden;
   background:
-    radial-gradient(ellipse 70% 55% at 50% 25%, rgba(79, 70, 229, 0.06) 0%, transparent 70%);
+    radial-gradient(ellipse 70% 55% at 50% 25%, rgba(15, 118, 110, 0.06) 0%, transparent 70%);
 }
 
 .home-hero__particles {
@@ -43,7 +43,7 @@
   left: -6%;
   width: 400px;
   height: 400px;
-  background: rgba(79, 70, 229, 0.25);
+  background: rgba(15, 118, 110, 0.25);
 }
 
 .home-hero__glow--right {
@@ -51,7 +51,7 @@
   right: -6%;
   width: 380px;
   height: 380px;
-  background: rgba(249, 115, 22, 0.2);
+  background: rgba(3, 105, 161, 0.2);
 }
 
 .home-hero__content {
@@ -138,11 +138,11 @@
 .home-hero__btn--primary {
   background: linear-gradient(135deg, var(--brand), var(--text-secondary));
   color: #fff;
-  box-shadow: 0 8px 28px rgba(79, 70, 229, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 28px rgba(15, 118, 110, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .home-hero__btn--primary:hover {
-  box-shadow: 0 12px 40px rgba(79, 70, 229, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  box-shadow: 0 12px 40px rgba(15, 118, 110, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .home-hero__btn--ghost {
@@ -154,7 +154,7 @@
 
 .home-hero__btn--ghost:hover {
   border-color: var(--brand);
-  background: rgba(79, 70, 229, 0.04);
+  background: rgba(15, 118, 110, 0.04);
 }
 
 .home-hero__tagline {
@@ -233,7 +233,7 @@
 [data-theme='warm'] .home-page {
   background:
     radial-gradient(circle at 15% 20%, rgba(234, 88, 12, 0.08), transparent 35%),
-    radial-gradient(circle at 85% 80%, rgba(249, 115, 22, 0.06), transparent 30%),
+    radial-gradient(circle at 85% 80%, rgba(3, 105, 161, 0.06), transparent 30%),
     var(--home-bg);
 }
 
@@ -247,7 +247,7 @@
 }
 
 [data-theme='warm'] .home-hero__glow--right {
-  background: rgba(249, 115, 22, 0.18);
+  background: rgba(3, 105, 161, 0.18);
 }
 
 [data-theme='warm'] .home-hero__btn--primary {

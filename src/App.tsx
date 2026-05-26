@@ -10,6 +10,7 @@ const ForgotPasswordPage = lazy(() => import('./features/auth/pages/ForgotPasswo
 const RegisterPage = lazy(() => import('./features/auth/pages/RegisterPage').then((module) => ({ default: module.RegisterPage })))
 const ResetPasswordPage = lazy(() => import('./features/auth/pages/ResetPasswordPage').then((module) => ({ default: module.ResetPasswordPage })))
 const ProfilePage = lazy(() => import('./features/auth/pages/ProfilePage').then((module) => ({ default: module.ProfilePage })))
+const ResendActivationPage = lazy(() => import('./features/auth/pages/ResendActivationPage').then((module) => ({ default: module.ResendActivationPage })))
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="reset-password" element={<ForgotPasswordPage />} />
             <Route path="reset-password/confirm" element={<ResetPasswordPage />} />
             <Route path="register" element={<RegisterPage />} />
+            <Route path="resend-activation" element={<ResendActivationPage />} />
             <Route path="profile" element={<ProfilePage />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />

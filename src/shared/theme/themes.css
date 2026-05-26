@@ -1,7 +1,16 @@
 /* =============================================
-   Theme: Cosmic (default — educational indigo)
+   Theme: Real Estate (default — trust teal / professional)
    All values sit in :root via tokens.css
    ============================================= */
+
+[data-theme='real-estate'] .settings-dropdown {
+  box-shadow: var(--shadow-card), 0 12px 40px rgba(15, 118, 110, 0.1);
+}
+
+[data-theme='real-estate'] ::selection {
+  background: rgba(15, 118, 110, 0.2);
+  color: var(--text-primary);
+}
 
 /* =============================================
    Theme: Warm (terracotta / cozy classroom)

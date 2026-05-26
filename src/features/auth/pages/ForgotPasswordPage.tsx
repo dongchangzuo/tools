@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import type { FormEvent } from 'react'
 import { ApiError } from '../../../shared/api/types'
@@ -8,18 +8,32 @@ import '../auth.css'
 
 const emailRule = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const codeRule = /^\d{6}$/
+const RESEND_COOLDOWN_SECONDS = 60
 
 export function ForgotPasswordPage() {
   const [email, setEmail] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isVerifyingCode, setIsVerifyingCode] = useState(false)
   const [showCodeInput, setShowCodeInput] = useState(false)
+  const [resendCooldown, setResendCooldown] = useState(0)
   const [code, setCode] = useState('')
   const [status, setStatus] = useState('')
   const [emailError, setEmailError] = useState('')
   const [codeError, setCodeError] = useState('')
 
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (resendCooldown <= 0) {
+      return
+    }
+
+    const timer = window.setInterval(() => {
+      setResendCooldown((current) => Math.max(0, current - 1))
+    }, 1000)
+
+    return () => clearInterval(timer)
+  }, [resendCooldown > 0])
 
   const validateEmail = (value: string) => {
     if (!value.trim()) {
@@ -33,9 +47,7 @@ export function ForgotPasswordPage() {
     return ''
   }
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
+  const sendVerificationCode = async () => {
     const nextEmailError = validateEmail(email)
     setEmailError(nextEmailError)
 
@@ -54,6 +66,7 @@ export function ForgotPasswordPage() {
       setShowCodeInput(true)
       setCode('')
       setStatus(response.message)
+      setResendCooldown(RESEND_COOLDOWN_SECONDS)
     } catch (error) {
       if (error instanceof ApiError) {
         setStatus(error.message)
@@ -63,6 +76,24 @@ export function ForgotPasswordPage() {
     } finally {
       setIsSubmitting(false)
     }
+  }
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    if (showCodeInput) {
+      return
+    }
+
+    await sendVerificationCode()
+  }
+
+  const handleResend = async () => {
+    if (isSubmitting || resendCooldown > 0) {
+      return
+    }
+
+    await sendVerificationCode()
   }
 
   const handleVerifyCode = async () => {
@@ -166,12 +197,29 @@ export function ForgotPasswordPage() {
                 >
                   {isVerifyingCode ? '验证中…' : '验证'}
                 </button>
+                <p className="reset-code-card__footer">
+                  没收到验证码？
+                  <button
+                    type="button"
+                    className="reset-code-card__resend login-link"
+                    onClick={handleResend}
+                    disabled={isSubmitting || resendCooldown > 0}
+                  >
+                    {isSubmitting
+                      ? '发送中…'
+                      : resendCooldown > 0
+                        ? `${resendCooldown}s 后重发`
+                        : '重新发送'}
+                  </button>
+                </p>
               </div>
             ) : null}
 
-            <button type="submit" className="login-submit" disabled={isSubmitting || showCodeInput}>
-              {isSubmitting ? '发送中…' : '发送验证码'}
-            </button>
+            {!showCodeInput ? (
+              <button type="submit" className="login-submit" disabled={isSubmitting}>
+                {isSubmitting ? '发送中…' : '发送验证码'}
+              </button>
+            ) : null}
 
             <p className="login-status" aria-live="polite">
               {status}
