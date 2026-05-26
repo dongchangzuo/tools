@@ -1,7 +1,5 @@
-@import './styles/tokens.css';
-@import './styles/base.css';
-@import './styles/layout.css';
-@import './styles/components.css';
-@import './styles/home.css';
-@import './styles/balance.css';
-@import './styles/test-pages.css';
+@import './shared/theme/tokens.css';
+@import './shared/theme/base.css';
+@import './shared/theme/layout.css';
+@import './shared/ui/components.css';
+@import './features/shapes/test-pages.css';

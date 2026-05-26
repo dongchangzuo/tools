@@ -1,20 +1,20 @@
 import { lazy, Suspense } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-import { AppLayout } from './components/AppLayout'
+import { AppLayout } from './shared/ui/AppLayout'
 import './App.css'
 
-const HomePage = lazy(() => import('./pages/HomePage').then((module) => ({ default: module.HomePage })))
-const BalancePage = lazy(() => import('./pages/BalancePage').then((module) => ({ default: module.BalancePage })))
-const SubstitutionPage = lazy(() => import('./pages/SubstitutionPage').then((module) => ({ default: module.SubstitutionPage })))
-const SubstitutionDemo2Page = lazy(() => import('./pages/SubstitutionDemo2Page').then((module) => ({ default: module.SubstitutionDemo2Page })))
-const SubstitutionDemo3Page = lazy(() => import('./pages/SubstitutionDemo3Page').then((module) => ({ default: module.SubstitutionDemo3Page })))
-const AppleTestPage = lazy(() => import('./pages/AppleTestPage').then((module) => ({ default: module.AppleTestPage })))
-const ShapesTestPage = lazy(() => import('./pages/ShapesTestPage').then((module) => ({ default: module.ShapesTestPage })))
-const BalanceHookTestPage = lazy(() => import('./pages/BalanceHookTestPage').then((module) => ({ default: module.BalanceHookTestPage })))
-const LoginPage = lazy(() => import('./pages/LoginPage').then((module) => ({ default: module.LoginPage })))
-const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage').then((module) => ({ default: module.ForgotPasswordPage })))
-const RegisterPage = lazy(() => import('./pages/RegisterPage').then((module) => ({ default: module.RegisterPage })))
-const ResetPasswordPage = lazy(() => import('./pages/ResetPasswordPage').then((module) => ({ default: module.ResetPasswordPage })))
+const HomePage = lazy(() => import('./features/home/HomePage').then((module) => ({ default: module.HomePage })))
+const BalancePage = lazy(() => import('./features/balance/BalancePage').then((module) => ({ default: module.BalancePage })))
+const SubstitutionPage = lazy(() => import('./features/substitution/pages/SubstitutionPage').then((module) => ({ default: module.SubstitutionPage })))
+const SubstitutionDemo2Page = lazy(() => import('./features/substitution/pages/SubstitutionDemo2Page').then((module) => ({ default: module.SubstitutionDemo2Page })))
+const SubstitutionDemo3Page = lazy(() => import('./features/substitution/pages/SubstitutionDemo3Page').then((module) => ({ default: module.SubstitutionDemo3Page })))
+const AppleTestPage = lazy(() => import('./features/shapes/pages/AppleTestPage').then((module) => ({ default: module.AppleTestPage })))
+const ShapesTestPage = lazy(() => import('./features/shapes/pages/ShapesTestPage').then((module) => ({ default: module.ShapesTestPage })))
+const BalanceHookTestPage = lazy(() => import('./features/shapes/pages/BalanceHookTestPage').then((module) => ({ default: module.BalanceHookTestPage })))
+const LoginPage = lazy(() => import('./features/auth/pages/LoginPage').then((module) => ({ default: module.LoginPage })))
+const ForgotPasswordPage = lazy(() => import('./features/auth/pages/ForgotPasswordPage').then((module) => ({ default: module.ForgotPasswordPage })))
+const RegisterPage = lazy(() => import('./features/auth/pages/RegisterPage').then((module) => ({ default: module.RegisterPage })))
+const ResetPasswordPage = lazy(() => import('./features/auth/pages/ResetPasswordPage').then((module) => ({ default: module.ResetPasswordPage })))
 
 function App() {
   return (
