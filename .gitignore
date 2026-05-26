@@ -65,3 +65,21 @@ out/
 *.njsproj
 *.sln
 *.sw?
+
+# Local Claude skills folders
+.claude/
+
+# Agent runtime / tool directories
+.agent/
+.codebuddy/
+.codex/
+.continue/
+.cursor/
+.gemini/
+.kiro/
+.opencode/
+.qoder/
+.roo/
+.trae/
+.windsurf/
+.github/
