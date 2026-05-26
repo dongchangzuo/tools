@@ -8,7 +8,7 @@ export function AppLayout() {
 
   return (
     <div className="site">
-      {!onLogin && (
+      {!onHome && !onLogin && (
         <nav className="site-nav" aria-label="站点导航">
           <Link to="/" className="site-nav__brand">
             数学小游戏
