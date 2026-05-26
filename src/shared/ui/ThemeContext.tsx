@@ -1,6 +1,12 @@
 import { createContext, useCallback, useContext, useState } from 'react'
 
-export type ThemeName = 'cosmic' | 'warm'
+export type ThemeName = 'cosmic' | 'warm' | 'tech'
+
+export const THEMES: { id: ThemeName; label: string }[] = [
+  { id: 'cosmic', label: '宇宙' },
+  { id: 'warm', label: '暖色' },
+  { id: 'tech', label: '科技' },
+]
 
 const STORAGE_KEY = 'tools.theme'
 const DEFAULT_THEME: ThemeName = 'cosmic'
@@ -8,7 +14,7 @@ const DEFAULT_THEME: ThemeName = 'cosmic'
 type ThemeContextValue = {
   theme: ThemeName
   setTheme: (t: ThemeName) => void
-  toggleTheme: () => void
+  cycleTheme: () => void
 }
 
 const ThemeContext = createContext<ThemeContextValue | null>(null)
@@ -16,7 +22,7 @@ const ThemeContext = createContext<ThemeContextValue | null>(null)
 function getStoredTheme(): ThemeName {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    if (raw === 'cosmic' || raw === 'warm') return raw
+    if (raw === 'cosmic' || raw === 'warm' || raw === 'tech') return raw
   } catch { /* localStorage unavailable */ }
   return DEFAULT_THEME
 }
@@ -38,12 +44,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     try { localStorage.setItem(STORAGE_KEY, t) } catch { /* noop */ }
   }, [])
 
-  const toggleTheme = useCallback(() => {
-    setTheme(theme === 'cosmic' ? 'warm' : 'cosmic')
+  const cycleTheme = useCallback(() => {
+    const order: ThemeName[] = ['cosmic', 'warm', 'tech']
+    const next = order[(order.indexOf(theme) + 1) % order.length]!
+    setTheme(next)
   }, [theme, setTheme])
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, setTheme, cycleTheme }}>
       {children}
     </ThemeContext.Provider>
   )

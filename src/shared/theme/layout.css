@@ -262,6 +262,56 @@
   background: rgba(234, 88, 12, 0.06);
 }
 
+[data-theme='tech'] .site-nav {
+  box-shadow: var(--shadow-card), 0 8px 30px rgba(6, 182, 212, 0.12);
+}
+
+[data-theme='tech'] .site-nav__brand:hover {
+  background: rgba(6, 182, 212, 0.08);
+}
+
+[data-theme='tech'] .site-nav__link:hover {
+  background: rgba(6, 182, 212, 0.1);
+  color: var(--text-primary);
+}
+
+[data-theme='tech'] .site-nav__link--active {
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.25), inset 0 1px 0 rgba(6, 182, 212, 0.15);
+}
+
+[data-theme='tech'] .site-nav__icon-btn:hover {
+  background: rgba(6, 182, 212, 0.1);
+}
+
+[data-theme='tech'] .settings-dropdown__item:hover {
+  background: rgba(6, 182, 212, 0.08);
+}
+
+.settings-dropdown__section-label {
+  margin: 4px 12px 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.settings-dropdown__item--active {
+  background: rgba(79, 70, 229, 0.08);
+  color: var(--brand);
+  font-weight: 700;
+}
+
+[data-theme='warm'] .settings-dropdown__item--active {
+  background: rgba(234, 88, 12, 0.08);
+}
+
+[data-theme='tech'] .settings-dropdown__item--active {
+  background: rgba(6, 182, 212, 0.12);
+  color: var(--accent-2);
+  box-shadow: inset 0 0 0 1px rgba(6, 182, 212, 0.25);
+}
+
 .settings-dropdown__icon {
   display: flex;
   align-items: center;

@@ -258,3 +258,50 @@
 [data-theme='warm'] .home-hero__btn--primary:hover {
   box-shadow: 0 12px 40px rgba(234, 88, 12, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
+
+/* =============================================
+   Theme: Tech — Home page overrides
+   ============================================= */
+[data-theme='tech'] .home-page {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(6, 182, 212, 0.12), transparent 35%),
+    radial-gradient(circle at 85% 80%, rgba(139, 92, 246, 0.1), transparent 30%),
+    var(--home-bg);
+}
+
+[data-theme='tech'] .home-hero {
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 25%, rgba(6, 182, 212, 0.08) 0%, transparent 70%);
+}
+
+[data-theme='tech'] .home-hero__glow--left {
+  background: rgba(6, 182, 212, 0.25);
+}
+
+[data-theme='tech'] .home-hero__glow--right {
+  background: rgba(139, 92, 246, 0.22);
+}
+
+[data-theme='tech'] .home-hero__eyebrow {
+  color: var(--accent-2);
+  text-shadow: 0 0 20px rgba(34, 211, 238, 0.35);
+}
+
+[data-theme='tech'] .home-hero__btn--primary {
+  background: linear-gradient(135deg, var(--brand), var(--accent));
+  box-shadow: 0 8px 28px rgba(6, 182, 212, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+[data-theme='tech'] .home-hero__btn--primary:hover {
+  box-shadow: 0 12px 40px rgba(6, 182, 212, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+[data-theme='tech'] .home-hero__btn--ghost {
+  border-color: rgba(6, 182, 212, 0.35);
+  color: var(--accent-2);
+}
+
+[data-theme='tech'] .home-hero__btn--ghost:hover {
+  background: rgba(6, 182, 212, 0.08);
+  border-color: rgba(6, 182, 212, 0.5);
+}
