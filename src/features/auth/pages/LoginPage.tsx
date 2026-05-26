@@ -4,6 +4,7 @@ import type { FormEvent } from 'react'
 import { ApiError } from '../../../shared/api/types'
 import { login } from '../api/authApi'
 import { setAccessToken } from '../api/tokenStorage'
+import { setUserInfo } from '../api/tokenStorage'
 import { getLoginErrorContent } from '../api/authErrorContent'
 import '../auth.css'
 
@@ -115,6 +116,7 @@ export function LoginPage() {
         rememberMe: remember,
       })
       setAccessToken(response.accessToken, remember)
+      setUserInfo({ username: response.user.username, email: response.user.email })
       navigate('/')
     } catch (error) {
       if (error instanceof ApiError) {

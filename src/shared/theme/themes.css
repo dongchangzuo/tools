@@ -37,3 +37,7 @@
 
   --nav-bg: rgba(255, 252, 245, 0.92);
 }
+
+[data-theme='warm'] .settings-dropdown {
+  box-shadow: var(--shadow-card), 0 12px 40px rgba(194, 65, 12, 0.1);
+}

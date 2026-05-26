@@ -1,4 +1,5 @@
 const ACCESS_TOKEN_KEY = 'tools.accessToken'
+const USER_INFO_KEY = 'tools.userInfo'
 
 export function setAccessToken(token: string, remember: boolean) {
   clearAccessToken()
@@ -13,6 +14,24 @@ export function getAccessToken(): string | null {
 export function clearAccessToken() {
   localStorage.removeItem(ACCESS_TOKEN_KEY)
   sessionStorage.removeItem(ACCESS_TOKEN_KEY)
+}
+
+export type UserInfo = { username: string; email: string }
+
+export function setUserInfo(info: UserInfo) {
+  try { localStorage.setItem(USER_INFO_KEY, JSON.stringify(info)) } catch { /* noop */ }
+}
+
+export function getUserInfo(): UserInfo | null {
+  try {
+    const raw = localStorage.getItem(USER_INFO_KEY)
+    if (!raw) return null
+    return JSON.parse(raw) as UserInfo
+  } catch { return null }
+}
+
+export function clearUserInfo() {
+  localStorage.removeItem(USER_INFO_KEY)
 }
 
 const RESET_TOKEN_KEY = 'tools.resetToken'
