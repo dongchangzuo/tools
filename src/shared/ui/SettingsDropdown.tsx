@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, type ReactElement } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { THEMES, useTheme, type ThemeName } from './ThemeContext'
 import { getMe } from '../../features/auth/api/authApi'
 import {
@@ -59,10 +58,10 @@ const THEME_ICONS: Record<ThemeName, () => ReactElement> = {
 type SettingsDropdownProps = {
   open: boolean
   onClose: () => void
+  onOpenProfile: () => void
 }
 
-export function SettingsDropdown({ open, onClose }: SettingsDropdownProps) {
-  const navigate = useNavigate()
+export function SettingsDropdown({ open, onClose, onOpenProfile }: SettingsDropdownProps) {
   const { theme, setTheme } = useTheme()
   const ref = useRef<HTMLDivElement>(null)
   const { accessToken, userInfo } = useAuthSession()
@@ -112,7 +111,6 @@ export function SettingsDropdown({ open, onClose }: SettingsDropdownProps) {
     clearAccessToken()
     clearUserInfo()
     onClose()
-    navigate('/')
   }
 
   if (!open) return null
@@ -161,8 +159,7 @@ export function SettingsDropdown({ open, onClose }: SettingsDropdownProps) {
             type="button"
             className="settings-dropdown__item"
             onClick={() => {
-              navigate('/profile')
-              onClose()
+              onOpenProfile()
             }}
           >
             <span className="settings-dropdown__icon">

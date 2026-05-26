@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useOutletContext } from 'react-router-dom'
+import type { AppLayoutOutletContext } from '../../shared/ui/AppLayout'
 import { useAuthSession } from '../auth/hooks/useAuthSession'
 import './home.css'
 
@@ -77,6 +78,7 @@ function HeroParticles() {
 
 export function HomePage() {
   const navigate = useNavigate()
+  const { openProfile } = useOutletContext<AppLayoutOutletContext>()
   const { accessToken } = useAuthSession()
   const isLoggedIn = Boolean(accessToken)
 
@@ -110,7 +112,7 @@ export function HomePage() {
               <button
                 type="button"
                 className="home-hero__btn home-hero__btn--primary"
-                onClick={() => navigate('/profile')}
+                onClick={openProfile}
               >
                 开始探索
               </button>

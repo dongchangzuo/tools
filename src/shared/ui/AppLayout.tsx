@@ -1,18 +1,30 @@
 import { Outlet, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { SettingsDropdown } from './SettingsDropdown'
+import { ProfileModal } from './ProfileModal'
 import { clearAccessToken, clearUserInfo } from '../../features/auth/api/tokenStorage'
 import { useAuthSession } from '../../features/auth/hooks/useAuthSession'
+
+export type AppLayoutOutletContext = {
+  openProfile: () => void
+}
 
 export function AppLayout() {
   const navigate = useNavigate()
   const [settingsOpen, setSettingsOpen] = useState(false)
+  const [profileOpen, setProfileOpen] = useState(false)
   const { accessToken } = useAuthSession()
   const isLoggedIn = Boolean(accessToken)
+
+  const openProfile = () => {
+    setSettingsOpen(false)
+    setProfileOpen(true)
+  }
 
   const handleLogout = () => {
     clearAccessToken()
     clearUserInfo()
+    setProfileOpen(false)
     navigate('/')
   }
 
@@ -38,6 +50,7 @@ export function AppLayout() {
               <SettingsDropdown
                 open={settingsOpen}
                 onClose={() => setSettingsOpen(false)}
+                onOpenProfile={openProfile}
               />
             </div>
 
@@ -59,7 +72,8 @@ export function AppLayout() {
           </div>
         </nav>
       </header>
-      <Outlet />
+      <Outlet context={{ openProfile } satisfies AppLayoutOutletContext} />
+      <ProfileModal open={profileOpen} onClose={() => setProfileOpen(false)} />
     </div>
   )
 }
