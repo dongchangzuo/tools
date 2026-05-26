@@ -1,12 +1,14 @@
 import { Outlet, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { SettingsDropdown } from './SettingsDropdown'
-import { clearAccessToken, clearUserInfo, getAccessToken } from '../../features/auth/api/tokenStorage'
+import { clearAccessToken, clearUserInfo } from '../../features/auth/api/tokenStorage'
+import { useAuthSession } from '../../features/auth/hooks/useAuthSession'
 
 export function AppLayout() {
   const navigate = useNavigate()
   const [settingsOpen, setSettingsOpen] = useState(false)
-  const isLoggedIn = Boolean(getAccessToken())
+  const { accessToken } = useAuthSession()
+  const isLoggedIn = Boolean(accessToken)
 
   const handleLogout = () => {
     clearAccessToken()

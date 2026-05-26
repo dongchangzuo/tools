@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getAccessToken } from '../auth/api/tokenStorage'
+import { useAuthSession } from '../auth/hooks/useAuthSession'
 import './home.css'
 
 function HeroParticles() {
@@ -77,7 +77,8 @@ function HeroParticles() {
 
 export function HomePage() {
   const navigate = useNavigate()
-  const isLoggedIn = Boolean(getAccessToken())
+  const { accessToken } = useAuthSession()
+  const isLoggedIn = Boolean(accessToken)
 
   return (
     <main className="home-page">

@@ -1,12 +1,13 @@
-import { useCallback, useEffect, useRef, useState, type ReactElement } from 'react'
+import { useCallback, useEffect, useRef, type ReactElement } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { THEMES, useTheme, type ThemeName } from './ThemeContext'
+import { getMe } from '../../features/auth/api/authApi'
 import {
   clearAccessToken,
   clearUserInfo,
-  getAccessToken,
-  getUserInfo,
+  setUserInfo,
 } from '../../features/auth/api/tokenStorage'
+import { useAuthSession } from '../../features/auth/hooks/useAuthSession'
 
 function ThemeRealEstateIcon() {
   return (
@@ -64,8 +65,32 @@ export function SettingsDropdown({ open, onClose }: SettingsDropdownProps) {
   const navigate = useNavigate()
   const { theme, setTheme } = useTheme()
   const ref = useRef<HTMLDivElement>(null)
-  const [userInfo] = useState(() => getUserInfo())
-  const isLoggedIn = Boolean(getAccessToken())
+  const { accessToken, userInfo } = useAuthSession()
+  const isLoggedIn = Boolean(accessToken)
+
+  useEffect(() => {
+    if (!open || !accessToken || userInfo) {
+      return
+    }
+
+    let cancelled = false
+
+    void getMe()
+      .then((response) => {
+        if (cancelled) return
+        setUserInfo({
+          username: response.user.username,
+          email: response.user.email,
+        })
+      })
+      .catch(() => {
+        /* profile header stays hidden until user retries */
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [open, accessToken, userInfo])
 
   const handleClickOutside = useCallback(
     (event: MouseEvent) => {
@@ -132,6 +157,22 @@ export function SettingsDropdown({ open, onClose }: SettingsDropdownProps) {
       {isLoggedIn && (
         <>
           <div className="settings-dropdown__divider" />
+          <button
+            type="button"
+            className="settings-dropdown__item"
+            onClick={() => {
+              navigate('/profile')
+              onClose()
+            }}
+          >
+            <span className="settings-dropdown__icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </span>
+            <span>个人资料</span>
+          </button>
           <button
             type="button"
             className="settings-dropdown__item settings-dropdown__logout"
