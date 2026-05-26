@@ -33,34 +33,6 @@
   border: 2px solid var(--border);
 }
 
-.status-banner {
-  width: 100%;
-  max-width: 560px;
-  padding: 14px 20px;
-  border-radius: var(--radius-sm);
-  font-size: 1.05rem;
-  font-weight: 600;
-  text-align: center;
-}
-
-.status-banner--success {
-  background: #dcfce7;
-  color: #166534;
-  border: 2px solid #22c55e;
-}
-
-.status-banner--imbalance {
-  background: #fee2e2;
-  color: #991b1b;
-  border: 2px solid #ef4444;
-}
-
-.status-banner--error {
-  background: #fef9c3;
-  color: #854d0e;
-  border: 2px solid #eab308;
-}
-
 .sr-only {
   position: absolute;
   width: 1px;

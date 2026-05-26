@@ -8,8 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "vitest run",
-    "art:hook-balance": "tsx scripts/export-hook-balance.ts"
+    "test": "vitest run"
   },
   "dependencies": {
     "react": "^19.2.6",
@@ -18,8 +17,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@napi-rs/canvas": "^0.1.70",
-    "tsx": "^4.19.4",
     "@types/node": "^24.12.3",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",

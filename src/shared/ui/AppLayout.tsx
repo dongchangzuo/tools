@@ -33,23 +33,19 @@ export function AppLayout() {
         {!onHome && !onLogin && !onRegister && !onResetPassword && (
           <div className="site-nav__links">
             <Link
-              to="/balance"
-              className={pathname === '/balance' ? 'site-nav__link site-nav__link--active' : 'site-nav__link'}
-            >
-              天平
-            </Link>
-            <Link
               to="/substitution"
               className={onSubstitution ? 'site-nav__link site-nav__link--active' : 'site-nav__link'}
             >
               等量代换
             </Link>
-            <Link
-              to="/login"
-              className={onLogin ? 'site-nav__link site-nav__link--active' : 'site-nav__link'}
-            >
-              登录
-            </Link>
+            {!isLoggedIn && (
+              <Link
+                to="/login"
+                className={onLogin ? 'site-nav__link site-nav__link--active' : 'site-nav__link'}
+              >
+                登录
+              </Link>
+            )}
             {onSubstitution && (
               <>
                 <Link
