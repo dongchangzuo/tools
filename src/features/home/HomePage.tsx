@@ -109,13 +109,36 @@ export function HomePage() {
 
           <div className="home-hero__actions" style={{ animationDelay: '0.5s' }}>
             {isLoggedIn ? (
-              <button
-                type="button"
-                className="home-hero__btn home-hero__btn--primary"
-                onClick={openProfile}
-              >
-                开始探索
-              </button>
+              <>
+                <button
+                  type="button"
+                  className="home-hero__btn home-hero__btn--primary"
+                  onClick={openProfile}
+                >
+                  开始探索
+                </button>
+                <button
+                  type="button"
+                  className="home-hero__btn home-hero__btn--ghost"
+                  onClick={() => navigate('/tools/rectangle-perimeter-formula')}
+                >
+                  公式推导
+                </button>
+                <button
+                  type="button"
+                  className="home-hero__btn home-hero__btn--ghost"
+                  onClick={() => navigate('/tools/rectangle-perimeter-half')}
+                >
+                  半周长
+                </button>
+                <button
+                  type="button"
+                  className="home-hero__btn home-hero__btn--ghost"
+                  onClick={() => navigate('/tools/rectangle-perimeter')}
+                >
+                  周长探索
+                </button>
+              </>
             ) : (
               <>
                 <button
@@ -131,6 +154,27 @@ export function HomePage() {
                   onClick={() => navigate('/login')}
                 >
                   已有账号
+                </button>
+                <button
+                  type="button"
+                  className="home-hero__btn home-hero__btn--ghost"
+                  onClick={() => navigate('/tools/rectangle-perimeter-formula')}
+                >
+                  公式推导
+                </button>
+                <button
+                  type="button"
+                  className="home-hero__btn home-hero__btn--ghost"
+                  onClick={() => navigate('/tools/rectangle-perimeter-half')}
+                >
+                  半周长
+                </button>
+                <button
+                  type="button"
+                  className="home-hero__btn home-hero__btn--ghost"
+                  onClick={() => navigate('/tools/rectangle-perimeter')}
+                >
+                  周长探索
                 </button>
               </>
             )}

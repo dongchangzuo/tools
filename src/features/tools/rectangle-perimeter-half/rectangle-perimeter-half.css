@@ -1,0 +1,25 @@
+.rph-scene {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.rph-scene__perimeter {
+  margin: 0;
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--rpf-surface, var(--surface));
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-transform: none;
+  color: var(--text-secondary);
+}
+
+.rpf-subtitle-bar__detail.rpf-subtitle-bar__text--math {
+  font-family: var(--font-body);
+  text-transform: none;
+}

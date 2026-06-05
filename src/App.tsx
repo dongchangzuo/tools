@@ -11,6 +11,21 @@ const RegisterPage = lazy(() => import('./features/auth/pages/RegisterPage').the
 const ResetPasswordPage = lazy(() => import('./features/auth/pages/ResetPasswordPage').then((module) => ({ default: module.ResetPasswordPage })))
 const ProfilePage = lazy(() => import('./features/auth/pages/ProfilePage').then((module) => ({ default: module.ProfilePage })))
 const ResendActivationPage = lazy(() => import('./features/auth/pages/ResendActivationPage').then((module) => ({ default: module.ResendActivationPage })))
+const RectanglePerimeterPage = lazy(() =>
+  import('./features/tools/rectangle-perimeter/pages/RectanglePerimeterPage').then((module) => ({
+    default: module.RectanglePerimeterPage,
+  })),
+)
+const RectanglePerimeterFormulaPage = lazy(() =>
+  import('./features/tools/rectangle-perimeter-formula/pages/RectanglePerimeterFormulaPage').then((module) => ({
+    default: module.RectanglePerimeterFormulaPage,
+  })),
+)
+const RectanglePerimeterHalfPage = lazy(() =>
+  import('./features/tools/rectangle-perimeter-half/pages/RectanglePerimeterHalfPage').then((module) => ({
+    default: module.RectanglePerimeterHalfPage,
+  })),
+)
 
 function App() {
   return (
@@ -26,6 +41,9 @@ function App() {
             <Route path="register" element={<RegisterPage />} />
             <Route path="resend-activation" element={<ResendActivationPage />} />
             <Route path="profile" element={<ProfilePage />} />
+            <Route path="tools/rectangle-perimeter" element={<RectanglePerimeterPage />} />
+            <Route path="tools/rectangle-perimeter-formula" element={<RectanglePerimeterFormulaPage />} />
+            <Route path="tools/rectangle-perimeter-half" element={<RectanglePerimeterHalfPage />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
